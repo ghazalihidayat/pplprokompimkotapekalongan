@@ -1,0 +1,31 @@
+/* Gaya bersama untuk seluruh halaman berita (/berita/*.html).
+   Sebelumnya blok <style> ini diduplikasi identik di setiap halaman berita;
+   kini disatukan di satu berkas agar kode setiap artikel lebih ringkas. */
+
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+.article-content p {
+    margin-bottom: 1.5rem;
+}
+
+/* Efek khusus untuk kutipan narasumber: tanda kutip dekoratif besar
+   di pojok kiri atas blockquote, selaras dengan gaya neobrutalism situs. */
+.quote-block {
+    position: relative;
+    border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.quote-block::before {
+    content: '\201C';
+    position: absolute;
+    top: -0.6rem;
+    left: 0.9rem;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 3.25rem;
+    line-height: 1;
+    color: #93C5FD;
+    opacity: 0.8;
+    pointer-events: none;
+}
