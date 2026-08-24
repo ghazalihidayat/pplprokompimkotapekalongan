@@ -17,39 +17,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Konfigurasi warna dan tipografi Tailwind khusus situs -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        brand: {
-                            bg: '#F0F4F8',
-                            sub: '#475569',
-                            div: '#93C5FD',
-                            header: '#1E3A8A',
-                            text: '#1E293B',
-                            dark: '#1E3A8A',
-                            accent: '#3B82F6'
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['Plus Jakarta Sans', 'sans-serif']
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Penyesuaian gaya tambahan di luar utility class Tailwind -->
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .article-content p {
-            margin-bottom: 1.5rem;
-        }
-    </style>
+    <!-- Konfigurasi warna, tipografi, dan gaya tambahan (berkas bersama) -->
+    <script src="../aset-profil/tailwind-config.js"></script>
+    <link rel="stylesheet" href="../aset-profil/berita.css">
 </head>
 <body class="bg-brand-bg text-brand-text antialiased">
     <!-- Navigasi atas: logo situs dan tautan kembali ke beranda -->
@@ -121,7 +91,7 @@
                     menjadi salah satu alternatif untuk mengoptimalkan lahan ekstrem di
                     wilayah pesisir.
                 </p>
-                <blockquote class="my-8 border-l-4 border-brand-accent bg-brand-bg px-5 py-4 italic leading-7 text-brand-sub">
+                <blockquote class="quote-block my-8 border-l-4 border-brand-accent bg-brand-bg px-6 py-5 pl-9 italic leading-7 text-brand-sub">
                     “Alhamdulillah sudah panen keempat dan sekitar 56 hektare sudah ditanam
                     serta dipanen. Ini patut kita syukuri karena lahan bekas rob bisa kembali
                     produktif dan turut mendukung ketahanan pangan Kota Pekalongan,” katanya.
@@ -145,7 +115,7 @@
                     hektare. Angka tersebut berada di atas rata-rata produktivitas nasional
                     yang disebut berada di kisaran 6,3 ton per hektare.
                 </p>
-                <blockquote class="my-8 border-l-4 border-brand-accent bg-brand-bg px-5 py-4 italic leading-7 text-brand-sub">
+                <blockquote class="quote-block my-8 border-l-4 border-brand-accent bg-brand-bg px-6 py-5 pl-9 italic leading-7 text-brand-sub">
                     “Produktivitasnya luar biasa dan sudah di atas rata-rata nasional. Pusat
                     pembenihan di sini akan sangat membantu mendukung pengembangan lahan-lahan
                     ekstrem di sepanjang Pantura,” ujar Bimala.
@@ -204,36 +174,40 @@
         </article>
     </main>
 
-    <!-- Footer situs: identitas program dan informasi kontak -->
-    <footer class="border-t-8 border-brand-accent bg-brand-dark px-6 py-10 text-white">
-        <div class="mx-auto max-w-7xl">
-            <div class="flex flex-col justify-between gap-8 border-b border-brand-div/30 pb-8 md:flex-row">
-                <div>
-                    <div class="mb-4 flex items-center gap-3">
-                        <img src="../aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="h-8 w-8 rounded">
-                        <span class="text-xl font-bold">
-                            PPL PROKOMPIM 2026
-                        </span>
-                    </div>
-                    <p class="max-w-sm text-sm leading-relaxed text-brand-div">
-                        Dokumentasi pengalaman, pembelajaran, dan karya mahasiswa KPI selama
-                        pelaksanaan PPL di Prokompim Kota Pekalongan.
-                    </p>
+    <!-- Footer situs: identitas program dan informasi kontak (mengikuti index.html) -->
+    <footer class="border-t-8 border-brand-accent bg-brand-dark px-6 pb-8 pt-16 text-white">
+        <div class="mx-auto mb-8 flex max-w-7xl flex-col items-start justify-between gap-8 border-b border-brand-div/30 pb-8 md:flex-row">
+            <div class="w-full md:w-1/2">
+                <div class="mb-4 flex items-center gap-3">
+                    <img src="../aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="h-8 w-8 rounded-md object-cover">
+                    <span class="text-xl font-bold">
+                        PPL PROKOMPIM 2026
+                    </span>
                 </div>
-                <div class="text-sm text-brand-div md:text-right">
-                    <p class="mb-2 font-bold text-white">
-                        Protokol dan Komunikasi Pimpinan
-                    </p>
-                    <p>
-                        Kota Pekalongan
-                    </p>
-                    <p>
-                        Jl. Mataram No. 1, 51111
-                    </p>
-                </div>
+                <p class="max-w-sm text-sm text-brand-div">
+                    Dokumentasi pengalaman, pembelajaran, dan karya mahasiswa KPI selama
+                    pelaksanaan PPL di Prokompim Kota Pekalongan.
+                </p>
             </div>
-            <p class="pt-6 text-center text-xs text-brand-div/80">
-                © 2026 Tim PPL KPI — Prokompim Kota Pekalongan.
+            <div class="w-full md:w-1/2 md:text-right">
+                <h4 class="mb-4 font-bold text-white">
+                    Protokol dan Komunikasi Pimpinan
+                </h4>
+                <ul class="inline-block space-y-2 text-left text-sm text-brand-div md:text-right">
+                    <li>
+                        <i class="fa-solid fa-building mr-2 text-brand-accent md:ml-2 md:mr-0"></i>
+                        Kota Pekalongan
+                    </li>
+                    <li>
+                        <i class="fa-solid fa-map-pin mr-2 text-brand-accent md:ml-2 md:mr-0"></i>
+                        Jl. Mataram No. 1, 51111
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="mx-auto max-w-7xl text-center text-xs text-brand-div/80">
+            <p>
+                &copy; 2026 Tim PPL KPI — Prokompim Kota Pekalongan.
             </p>
         </div>
     </footer>
