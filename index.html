@@ -97,10 +97,10 @@
            bertumpuk (stacked shadow) dan baris kedua tampil seperti stiker
            miring dengan border tebal + bayangan keras, khas neobrutalism. */
         .hero-line-1 {
-            text-shadow: 3px 3px 0 #93C5FD, 6px 6px 0 #1E3A8A;
+            text-shadow: 3px 3px 0 #BFDBFE;
         }
         @media (min-width: 640px) {
-            .hero-line-1 { text-shadow: 4px 4px 0 #93C5FD, 8px 8px 0 #1E3A8A; }
+            .hero-line-1 { text-shadow: 5px 5px 0 #BFDBFE; }
         }
         .hero-line-2 {
             border: 3px solid #1E3A8A;
@@ -177,7 +177,7 @@
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.2] text-brand-header py-2 break-words">
                 <span class="hero-line-1 inline-block">Dari Ruang Kelas</span><br>
-                <span class="hero-line-2 highlight-bg mt-3 inline-block leading-normal">Menuju Ruang Protokol</span>
+                <span class="hero-line-2 highlight-bg mt-6 sm:mt-7 lg:mt-8 inline-block leading-normal">Menuju Ruang Protokol</span>
             </h1>
             <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_#1E3A8A] mt-4 max-w-2xl">
                 <h3 class="text-sm font-bold text-brand-accent mb-3 uppercase tracking-wide">Ringkasan</h3>
@@ -353,15 +353,14 @@
             });
         }
         
-        // Ambil data foto terbaru dari manifest.json
+        // Ambil data foto dari manifest.json — seluruh aset artikel ditampilkan
+        // dalam carousel agar tidak berulang-ulang di 5 foto yang sama.
         fetch('manifest.json')
             .then(res => res.ok ? res.json() : Promise.reject(res.status))
             .then(data => {
-                const terbaru = [...data]
-                    .sort((a, b) => b.tanggal.localeCompare(a.tanggal))
-                    .slice(0, 5);
-                if (terbaru.length > 0) {
-                    buildInstans(terbaru);
+                const semuaFoto = [...data].sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+                if (semuaFoto.length > 0) {
+                    buildInstans(semuaFoto);
                 }
             })
             .catch(() => {
