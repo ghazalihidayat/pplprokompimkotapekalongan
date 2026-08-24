@@ -138,25 +138,26 @@
            (280x210, 340x255, 400x300, 440x330) sehingga kartu landscape
            dan portrait tetap sejajar rapi dalam satu baris. Rasio 4:3 dan
            3:4 dipilih karena paling mewakili sebagian besar foto asli. */
+        /* Bingkai kartu dokumentasi harian. Tinggi tetap sama di semua
+           kartu pada satu breakpoint, sedangkan lebar mengikuti rasio
+           asli tiap foto (diisi lewat JavaScript setelah foto termuat).
+           Dengan begitu foto selalu tampil penuh tanpa terpotong dan
+           tanpa ruang kosong, dan baris kartu tetap sejajar karena
+           tingginya seragam. Rasio 4/3 di bawah hanya nilai awal
+           sebelum ukuran asli foto diketahui. */
         .kegiatan-card {
-            width: 280px;
+            height: 260px;
+            flex-shrink: 0;
             aspect-ratio: 4 / 3;
         }
-        .kegiatan-card.is-portrait {
-            width: 157.5px;
-            aspect-ratio: 3 / 4;
-        }
         @media (min-width: 640px) {
-            .kegiatan-card { width: 340px; }
-            .kegiatan-card.is-portrait { width: 191.25px; }
+            .kegiatan-card { height: 300px; }
         }
         @media (min-width: 768px) {
-            .kegiatan-card { width: 400px; }
-            .kegiatan-card.is-portrait { width: 225px; }
+            .kegiatan-card { height: 340px; }
         }
         @media (min-width: 1024px) {
-            .kegiatan-card { width: 440px; }
-            .kegiatan-card.is-portrait { width: 247.5px; }
+            .kegiatan-card { height: 380px; }
         }
     </style>
 </head>
@@ -656,22 +657,22 @@
     }
 
     // Render kartu dokumentasi harian dari kegiatan/data-kegiatan.json.
-    // Bingkai default mengikuti rasio landscape (4:3); begitu ukuran asli
-    // foto diketahui saat gambar selesai dimuat, adjustCardOrientation()
-    // menambahkan kelas is-portrait bila fotonya potret (3:4). Dengan
-    // object-contain, foto selalu tampil utuh dan center tanpa terpotong.
-    // Jumlah kartu mengikuti jumlah data apa adanya, tanpa digandakan.
+    // Tinggi kartu tetap (diatur lewat CSS .kegiatan-card), sedangkan
+    // lebar mengikuti rasio asli tiap foto lewat adjustCardOrientation()
+    // begitu gambar selesai dimuat. Hasilnya foto selalu tampil penuh
+    // tanpa terpotong dan tanpa ruang kosong. Jumlah kartu mengikuti
+    // jumlah data apa adanya, tanpa digandakan.
     function renderKegiatan(data) {
         const track = document.getElementById('magang-track');
         if (!track) return;
 
         track.innerHTML = data.map(item => `
-            <div class="snap-start shrink-0 kegiatan-card perspective-1000 group">
+            <div class="snap-start kegiatan-card perspective-1000 group">
                 <div class="flip-inner w-full h-full relative preserve-3d cursor-pointer" onclick="flipCard(this)">
                     <div class="absolute inset-0 backface-hidden card-neo p-2 bg-white flex flex-col">
-                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-slate-100 flex items-center justify-center">
+                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-slate-100">
                             <span class="absolute top-3 left-3 bg-brand-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm z-10 pointer-events-none">Kegiatan Magang</span>
-                            <img src="${item.foto}" alt="${item.alt}" class="max-w-full max-h-full w-auto h-auto object-contain" loading="lazy" onload="adjustCardOrientation(this)">
+                            <img src="${item.foto}" alt="${item.alt}" class="w-full h-full object-cover" loading="lazy" onload="adjustCardOrientation(this)">
                         </div>
                     </div>
                     <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo bg-white border-2 border-brand-header p-6 flex flex-col items-center justify-center text-center">
@@ -684,12 +685,14 @@
         `).join('');
     }
 
-    // Menyesuaikan bentuk bingkai kartu begitu dimensi asli fotonya
-    // diketahui: foto lebih tinggi dari lebar dianggap potret.
+    // Mengatur rasio kartu agar persis sama dengan rasio asli fotonya.
+    // Karena tinggi kartu tetap, lebar otomatis menyesuaikan mengikuti
+    // aspect-ratio ini sehingga foto mengisi penuh bingkai tanpa
+    // terpotong dan tanpa sisa ruang kosong.
     function adjustCardOrientation(img) {
         const card = img.closest('.kegiatan-card');
-        if (card && img.naturalHeight > img.naturalWidth) {
-            card.classList.add('is-portrait');
+        if (card && img.naturalWidth && img.naturalHeight) {
+            card.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
         }
     }
 
