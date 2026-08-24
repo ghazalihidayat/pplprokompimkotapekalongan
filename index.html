@@ -93,6 +93,26 @@
             color: white;
         }
 
+        /* Efek neobrutalism khusus judul hero: baris pertama memakai teks
+           bertumpuk (stacked shadow) dan baris kedua tampil seperti stiker
+           miring dengan border tebal + bayangan keras, khas neobrutalism. */
+        .hero-line-1 {
+            text-shadow: 3px 3px 0 #93C5FD, 6px 6px 0 #1E3A8A;
+        }
+        @media (min-width: 640px) {
+            .hero-line-1 { text-shadow: 4px 4px 0 #93C5FD, 8px 8px 0 #1E3A8A; }
+        }
+        .hero-line-2 {
+            border: 3px solid #1E3A8A;
+            box-shadow: 6px 6px 0px #1E3A8A;
+            transform: rotate(-1.5deg);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .hero-line-2:hover {
+            transform: rotate(0deg) translate(-2px, -2px);
+            box-shadow: 8px 8px 0px #1E3A8A;
+        }
+
         /* Kartu dokumentasi harian bisa dibalik (flip) untuk menampilkan
            keterangan foto. Properti perspective & preserve-3d dibutuhkan
            supaya efek putar terlihat seperti kartu fisik, bukan pipih. */
@@ -156,8 +176,8 @@
                 <span class="w-2 h-2 rounded-full bg-blue-500"></span> 03 Agustus - 02 September 2026
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.2] text-brand-header py-2 break-words">
-                Belajar dari Dunia Kerja<br>
-                <span class="highlight-bg mt-3 inline-block leading-normal">Komunikasi dalam Praktik</span>
+                <span class="hero-line-1 inline-block">Dari Ruang Kelas</span><br>
+                <span class="hero-line-2 highlight-bg mt-3 inline-block leading-normal">Menuju Ruang Protokol</span>
             </h1>
             <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_#1E3A8A] mt-4 max-w-2xl">
                 <h3 class="text-sm font-bold text-brand-accent mb-3 uppercase tracking-wide">Ringkasan</h3>
@@ -812,7 +832,7 @@
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8 border-b border-brand-div/30 pb-8 mb-8">
         <div class="w-full md:w-1/2">
             <div class="flex items-center gap-3 mb-4">
-                <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-8 h-8 rounded object-contain">
+                <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-8 h-8 rounded-md object-cover">
                 <span class="font-brand font-bold text-xl text-white">PPL PROKOMPIM 2026</span>
             </div>
             <p class="text-brand-div text-sm max-w-sm">

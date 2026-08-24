@@ -1,5 +1,23 @@
 [
   {
+    "tanggal": "2026-08-21",
+    "judul": "Dolan PAUD Jadi Ruang Serap Aspirasi, Bunda PAUD Pekalongan Tekankan Peran Orang Tua",
+    "dek": "Program Dolan PAUD di KB Rainbow Preschool Setono menjadi ajang Bunda PAUD Kota Pekalongan menyerap aspirasi sekaligus menekankan peran orang tua dalam pendidikan anak usia dini.",
+    "foto": "aset-artikel/dolan-paud.jpeg",
+    "link": "berita/dolan-paud.html",
+    "kategori": "Liputan Kegiatan",
+    "lokasi": "KB Rainbow Preschool, Setono"
+  },
+  {
+    "tanggal": "2026-08-21",
+    "judul": "Pemkot Pekalongan Serahkan SK Pensiun dan Tali Asih kepada 28 ASN",
+    "dek": "Sebanyak 28 ASN Pemkot Pekalongan menerima SK pensiun dan tali asih sebagai bentuk penghargaan atas pengabdian mereka selama menjalankan tugas pemerintahan.",
+    "foto": "aset-artikel/tht.jpeg",
+    "link": "berita/tht.html",
+    "kategori": "Liputan Kegiatan",
+    "lokasi": "Ruang Buketan, Sekretariat Daerah Kota Pekalongan"
+  },
+  {
     "tanggal": "2026-08-19",
     "judul": "Tasyakuran HUT ke-81 RI Kota Pekalongan Jadi Penutup Rangkaian Peringatan dan Momentum Apresiasi Paskibraka",
     "dek": "Tasyakuran HUT ke-81 Kemerdekaan RI tingkat Kota Pekalongan menjadi momentum syukuran atas terlaksananya rangkaian peringatan sekaligus apresiasi bagi Paskibraka Kota Pekalongan.",
@@ -91,15 +109,6 @@
   },
   {
     "tanggal": "2026-08-12",
-    "judul": "Tutup Pelatihan Strategi Pemasaran, Wali Kota Pekalongan Dorong UMKM Manfaatkan Digital Marketing",
-    "dek": "Pelatihan strategi pemasaran ditutup dengan ajakan bagi pelaku UMKM Kota Pekalongan untuk lebih memanfaatkan digital marketing.",
-    "foto": "aset-artikel/umkm.jpeg",
-    "link": "berita/umkm.html",
-    "kategori": "Liputan Kegiatan",
-    "lokasi": "Dindagkop-UKM Kota Pekalongan, Lantai 2"
-  },
-  {
-    "tanggal": "2026-08-12",
     "judul": "Panen Keempat Padi Biosalin Pulihkan Produktivitas Lahan Bekas Rob Kota Pekalongan",
     "dek": "Panen keempat padi biosalin di Degayu menandai pemulihan produktivitas lahan bekas terdampak banjir dan rob sekaligus mendukung ketahanan pangan daerah.",
     "foto": "aset-artikel/panen-padi.jpeg",
@@ -115,6 +124,15 @@
     "link": "berita/gebyar-fest-bank-jateng.html",
     "kategori": "Liputan Kegiatan",
     "lokasi": "Kantor Cabang Bank Jateng Pekalongan"
+  },
+  {
+    "tanggal": "2026-08-12",
+    "judul": "Tutup Pelatihan Strategi Pemasaran, Wali Kota Pekalongan Dorong UMKM Manfaatkan Digital Marketing",
+    "dek": "Pelatihan strategi pemasaran ditutup dengan ajakan bagi pelaku UMKM Kota Pekalongan untuk lebih memanfaatkan digital marketing.",
+    "foto": "aset-artikel/umkm.jpeg",
+    "link": "berita/umkm.html",
+    "kategori": "Liputan Kegiatan",
+    "lokasi": "Aula Dindagkop-UKM Kota Pekalongan, Lantai 2"
   },
   {
     "tanggal": "2026-08-11",
