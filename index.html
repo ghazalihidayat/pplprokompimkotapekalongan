@@ -601,40 +601,40 @@
         </div>
 
         <div id="karya-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <a href="berita/Igtki-pgri.html" class="card-neo flex flex-col overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/Igtki-pgri.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
                     <img src="aset-artikel/igtki-pgri.jpeg" alt="Semarak HUT ke-81 RI IGTKI-PGRI dan Brimob" class="w-full h-full object-cover">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
-                    <h4 class="font-brand font-bold text-lg text-brand-header">Ketua TP-PKK Kota Pekalongan Dorong Sinergi IGTKI-PGRI dan Brimob dalam Penguatan Pendidikan Anak</h4>
-                    <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                    <h4 class="font-brand font-bold text-lg text-brand-header line-clamp-3 min-h-[84px]">Ketua TP-PKK Kota Pekalongan Dorong Sinergi IGTKI-PGRI dan Brimob dalam Penguatan Pendidikan Anak</h4>
+                    <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Selasa, 11 Agustus 2026</span>
                         <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Mako Brimob Batalyon B Pekalongan</span>
                     </div>
                 </div>
             </a>
-            <a href="berita/manic-mtq.html" class="card-neo flex flex-col overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/manic-mtq.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
                     <img src="aset-artikel/mtq-manic.jpeg" alt="Pamitan Kontingen Pelajar Pekalongan" class="w-full h-full object-cover">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
-                    <h4 class="font-brand font-bold text-lg text-brand-header">Pelajar Pekalongan Siap Berlaga di Tiga Kompetisi Nasional, Wali Kota Beri Dukungan</h4>
-                    <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                    <h4 class="font-brand font-bold text-lg text-brand-header line-clamp-3 min-h-[84px]">Pelajar Pekalongan Siap Berlaga di Tiga Kompetisi Nasional, Wali Kota Beri Dukungan</h4>
+                    <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Senin, 10 Agustus 2026</span>
                         <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Ruang Buketan, Sekretariat Daerah Kota Pekalongan</span>
                     </div>
                 </div>
             </a>
-            <a href="berita/rsud-bendan.html" class="card-neo flex flex-col overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/rsud-bendan.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
                     <img src="aset-artikel/rsud-bendan.jpeg" alt="Survei Akreditasi RSUD Bendan" class="w-full h-full object-cover">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
-                    <h4 class="font-brand font-bold text-lg text-brand-header">Wali Kota Pekalongan Buka Survei Akreditasi RSUD Bendan, Dorong Peningkatan Mutu Layanan</h4>
-                    <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                    <h4 class="font-brand font-bold text-lg text-brand-header line-clamp-3 min-h-[84px]">Wali Kota Pekalongan Buka Survei Akreditasi RSUD Bendan, Dorong Peningkatan Mutu Layanan</h4>
+                    <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Senin, 10 Agustus 2026</span>
                         <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>RSUD Bendan, Kota Pekalongan</span>
                     </div>
@@ -782,14 +782,14 @@
                 if (terbaru.length === 0) return;
 
                 grid.innerHTML = terbaru.map(item => `
-                    <a href="${item.link}" class="card-neo flex flex-col overflow-hidden hover:-translate-y-1 transition">
+                    <a href="${item.link}" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                         <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
                             <img src="${item.foto}" alt="${item.judul}" class="w-full h-full object-cover">
                             <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                         </div>
-                        <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
-                            <h4 class="font-brand font-bold text-lg text-brand-header">${item.judul}</h4>
-                            <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                        <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                            <h4 class="font-brand font-bold text-lg text-brand-header line-clamp-3 min-h-[84px]">${item.judul}</h4>
+                            <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                                 <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>${formatTanggalIndo(item.tanggal)}</span>
                                 <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>${item.lokasi}</span>
                             </div>
