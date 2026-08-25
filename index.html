@@ -608,6 +608,10 @@
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
                     <h4 class="font-brand font-bold text-lg text-brand-header">Ketua TP-PKK Kota Pekalongan Dorong Sinergi IGTKI-PGRI dan Brimob dalam Penguatan Pendidikan Anak</h4>
+                    <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Selasa, 11 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Mako Brimob Batalyon B Pekalongan</span>
+                    </div>
                 </div>
             </a>
             <a href="berita/manic-mtq.html" class="card-neo flex flex-col overflow-hidden hover:-translate-y-1 transition">
@@ -617,6 +621,10 @@
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
                     <h4 class="font-brand font-bold text-lg text-brand-header">Pelajar Pekalongan Siap Berlaga di Tiga Kompetisi Nasional, Wali Kota Beri Dukungan</h4>
+                    <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Senin, 10 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Ruang Buketan, Sekretariat Daerah Kota Pekalongan</span>
+                    </div>
                 </div>
             </a>
             <a href="berita/rsud-bendan.html" class="card-neo flex flex-col overflow-hidden hover:-translate-y-1 transition">
@@ -626,6 +634,10 @@
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
                     <h4 class="font-brand font-bold text-lg text-brand-header">Wali Kota Pekalongan Buka Survei Akreditasi RSUD Bendan, Dorong Peningkatan Mutu Layanan</h4>
+                    <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Senin, 10 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>RSUD Bendan, Kota Pekalongan</span>
+                    </div>
                 </div>
             </a>
         </div>
@@ -738,8 +750,28 @@
         });
     });
 
-    // Tiga liputan terbaru diambil dari manifest.json; jika gagal dimuat,
-    // tiga kartu contoh yang sudah tertulis di HTML akan tetap tampil.
+    // Nama hari dan bulan dalam Bahasa Indonesia, dipakai formatTanggalIndo()
+    // di bawah supaya format tanggal di kartu berita konsisten dengan
+    // halaman artikel ("Hari, tanggal Bulan tahun").
+    const HARI_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+    const BULAN_ID = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+
+    /**
+     * Mengubah tanggal ISO ("2026-08-21") dari manifest.json menjadi format
+     * tanggal Indonesia baku, contoh: "Jumat, 21 Agustus 2026".
+     * @param {string} isoDate - tanggal berformat YYYY-MM-DD.
+     * @returns {string}
+     */
+    function formatTanggalIndo(isoDate) {
+        const d = new Date(isoDate + 'T00:00:00');
+        const tanggal = String(d.getDate()).padStart(2, '0');
+        return `${HARI_ID[d.getDay()]}, ${tanggal} ${BULAN_ID[d.getMonth()]} ${d.getFullYear()}`;
+    }
+
+    // Tiga liputan terbaru diambil dari manifest.json, lengkap dengan
+    // tanggal dan lokasi kegiatan supaya kartu lebih informatif (tidak
+    // hanya judul). Jika gagal dimuat, tiga kartu contoh yang sudah
+    // tertulis di HTML akan tetap tampil sebagai fallback.
     (function () {
         const grid = document.getElementById('karya-grid');
 
@@ -757,6 +789,10 @@
                         </div>
                         <div class="p-6 bg-white border-t-2 border-brand-header flex-grow">
                             <h4 class="font-brand font-bold text-lg text-brand-header">${item.judul}</h4>
+                            <div class="mt-3 pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                                <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>${formatTanggalIndo(item.tanggal)}</span>
+                                <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>${item.lokasi}</span>
+                            </div>
                         </div>
                     </a>
                 `).join('');
