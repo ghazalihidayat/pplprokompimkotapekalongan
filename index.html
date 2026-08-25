@@ -132,6 +132,33 @@
            geser tetap berfungsi normal lewat drag mouse atau sentuhan. */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Bingkai kartu dokumentasi harian. Lebar berbeda per breakpoint,
+           tetapi tinggi keduanya selalu sama pada breakpoint yang sama
+           (280x210, 340x255, 400x300, 440x330) sehingga kartu landscape
+           dan portrait tetap sejajar rapi dalam satu baris. Rasio 4:3 dan
+           3:4 dipilih karena paling mewakili sebagian besar foto asli. */
+        /* Bingkai kartu dokumentasi harian. Tinggi tetap sama di semua
+           kartu pada satu breakpoint, sedangkan lebar mengikuti rasio
+           asli tiap foto (diisi lewat JavaScript setelah foto termuat).
+           Dengan begitu foto selalu tampil penuh tanpa terpotong dan
+           tanpa ruang kosong, dan baris kartu tetap sejajar karena
+           tingginya seragam. Rasio 4/3 di bawah hanya nilai awal
+           sebelum ukuran asli foto diketahui. */
+        .kegiatan-card {
+            height: 260px;
+            flex-shrink: 0;
+            aspect-ratio: 4 / 3;
+        }
+        @media (min-width: 640px) {
+            .kegiatan-card { height: 300px; }
+        }
+        @media (min-width: 768px) {
+            .kegiatan-card { height: 340px; }
+        }
+        @media (min-width: 1024px) {
+            .kegiatan-card { height: 380px; }
+        }
     </style>
 </head>
 
@@ -551,7 +578,7 @@
         <h2 class="text-3xl lg:text-4xl font-bold text-brand-header">Karya & Portofolio</h2>
     </div>
 
-    <!-- Subbagian 1: carousel dokumentasi harian, sumber foto dari folder kegiatan/ -->
+    <!-- Subbagian 1: dokumentasi harian magang. Kartu dirender secara dinamis dari kegiatan/data-kegiatan.json -->
     <div class="mb-20">
         <div class="max-w-7xl mx-auto px-2 mb-6">
             <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_#1E3A8A] mb-3">Dokumentasi Harian</span>
@@ -559,18 +586,9 @@
         </div>
 
         <div class="w-full relative">
-            <!--
-                Kartu-kartu di bawah ini TIDAK ditulis manual di HTML.
-                Semuanya dibangun secara dinamis oleh JavaScript (lihat blok
-                <script> di bagian bawah halaman) berdasarkan isi berkas
-                kegiatan/data-kegiatan.json. Untuk menambah, mengubah, atau
-                menghapus foto dokumentasi harian, cukup edit file JSON
-                tersebut -- index.html ini tidak perlu disentuh lagi.
-            -->
-            <div id="magang-track" class="flex gap-3 sm:gap-4 overflow-x-auto snap-x snap-mandatory px-4 md:px-6 lg:px-[calc((100vw-80rem)/2)] pb-8 hide-scrollbar cursor-grab active:cursor-grabbing" style="scroll-padding-left: 1rem;">
-                <div class="w-full py-16 text-center text-sm text-brand-sub">
-                    Memuat dokumentasi harian&hellip;
-                </div>
+            <!-- Wadah kartu: diisi JavaScript berdasarkan jumlah data asli, tanpa duplikasi/rolling -->
+            <div id="magang-track" class="flex gap-5 overflow-x-auto snap-x snap-mandatory px-4 md:px-6 lg:px-[calc((100vw-80rem)/2)] pb-8 hide-scrollbar cursor-grab active:cursor-grabbing" style="scroll-padding-left: 1rem;">
+                <p class="text-sm text-brand-sub py-10">Memuat dokumentasi kegiatan...</p>
             </div>
         </div>
     </div>
@@ -619,22 +637,10 @@
 
     </section>
 
-<!-- Interaksi bagian Karya: render kartu dari data JSON, flip kartu, dan drag carousel -->
+<!-- Interaksi bagian Karya: flip kartu, drag carousel, dan pemuatan liputan terbaru -->
 <script>
-    /**
-     * Berapa lama (dalam milidetik) sebuah kartu tetap dalam posisi
-     * "terbalik" sebelum otomatis kembali ke sisi depan. Diseragamkan
-     * dalam satu konstanta agar mudah diubah di satu tempat saja.
-     */
-    const CARD_FLIP_BACK_DELAY_MS = 5000;
-
-    /**
-     * Membalik kartu dokumentasi harian saat sisi depannya diklik/disentuh.
-     * Jika kartu sedang dalam posisi terbalik, klik berikutnya langsung
-     * mengembalikannya (tidak perlu menunggu timer selesai). Dipanggil dari
-     * atribut onclick yang ditambahkan secara dinamis oleh buildKartuMagang().
-     * @param {HTMLElement} element - elemen `.flip-inner` yang diklik.
-     */
+    // Kartu dokumentasi harian dibalik saat diklik, lalu kembali sendiri
+    // setelah 5 detik supaya pengunjung tidak perlu klik dua kali.
     function flipCard(element) {
         if (element.classList.contains('is-flipped')) {
             element.classList.remove('is-flipped');
@@ -647,53 +653,62 @@
             if (element.classList.contains('is-flipped')) {
                 element.classList.remove('is-flipped');
             }
-        }, CARD_FLIP_BACK_DELAY_MS);
+        }, 5000);
     }
 
-    /**
-     * Ukuran kartu, diseragamkan untuk seluruh kartu dan responsif di
-     * setiap breakpoint Tailwind (HP kecil -> tablet -> laptop -> desktop).
-     */
-    const UKURAN_KARTU = 'snap-start shrink-0 w-[260px] sm:w-[320px] md:w-[360px] lg:w-[380px] h-[330px] sm:h-[380px] md:h-[400px] perspective-1000 group';
+    // Render kartu dokumentasi harian dari kegiatan/data-kegiatan.json.
+    // Tinggi kartu tetap (diatur lewat CSS .kegiatan-card), sedangkan
+    // lebar mengikuti rasio asli tiap foto lewat adjustCardOrientation()
+    // begitu gambar selesai dimuat. Hasilnya foto selalu tampil penuh
+    // tanpa terpotong dan tanpa ruang kosong. Jumlah kartu mengikuti
+    // jumlah data apa adanya, tanpa digandakan.
+    function renderKegiatan(data) {
+        const track = document.getElementById('magang-track');
+        if (!track) return;
 
-    /**
-     * Membuat elemen satu kartu flip dari satu entri data kegiatan.
-     * Foto memakai object-contain (bukan object-cover) di dalam kotak
-     * berukuran tetap, supaya foto orientasi landscape maupun portrait
-     * sama-sama tampil utuh tanpa terpotong dan tetap konsisten ukurannya.
-     * @param {{foto: string, alt: string, judul: string, deskripsi: string}} item
-     * @returns {HTMLDivElement}
-     */
-    function buildKartuMagang(item) {
-        const kartu = document.createElement('div');
-        kartu.className = UKURAN_KARTU;
-        kartu.innerHTML = `
-            <div class="flip-inner w-full h-full relative preserve-3d cursor-pointer">
-                <div class="absolute inset-0 backface-hidden card-neo p-2 bg-white flex flex-col">
-                    <div class="w-full h-full rounded-lg overflow-hidden relative bg-slate-100 flex items-center justify-center">
-                        <span class="absolute top-3 left-3 bg-brand-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm z-10 pointer-events-none">Kegiatan Magang</span>
-                        <img src="${item.foto}" alt="${item.alt}" loading="lazy" class="max-w-full max-h-full w-auto h-auto object-contain">
+        track.innerHTML = data.map(item => `
+            <div class="snap-start kegiatan-card perspective-1000 group">
+                <div class="flip-inner w-full h-full relative preserve-3d cursor-pointer" onclick="flipCard(this)">
+                    <div class="absolute inset-0 backface-hidden card-neo p-2 bg-white flex flex-col">
+                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-slate-100">
+                            <span class="absolute top-3 left-3 bg-brand-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm z-10 pointer-events-none">Kegiatan Magang</span>
+                            <img src="${item.foto}" alt="${item.alt}" class="w-full h-full object-cover" loading="lazy" onload="adjustCardOrientation(this)">
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo bg-white border-2 border-brand-header p-3 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center overflow-y-auto hide-scrollbar">
+                        <div class="w-8 sm:w-10 md:w-12 h-1 sm:h-1.5 bg-brand-accent mb-2 sm:mb-3 md:mb-5 rounded-full shrink-0"></div>
+                        <h4 class="font-bold text-brand-header text-xs sm:text-sm md:text-lg lg:text-xl mb-1.5 sm:mb-2 md:mb-3 leading-snug max-w-[92%] mx-auto">${item.judul}</h4>
+                        <p class="text-[10px] sm:text-xs md:text-sm text-brand-text leading-relaxed max-w-[92%] mx-auto">${item.deskripsi}</p>
                     </div>
                 </div>
-                <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo bg-white border-2 border-brand-header p-4 sm:p-6 flex flex-col items-center justify-center text-center overflow-y-auto hide-scrollbar">
-                    <div class="w-10 sm:w-12 h-1.5 bg-brand-accent mb-3 sm:mb-5 rounded-full shrink-0"></div>
-                    <h4 class="font-bold text-brand-header text-base sm:text-lg md:text-xl mb-2 sm:mb-3 leading-snug">${item.judul}</h4>
-                    <p class="text-xs sm:text-sm text-brand-text leading-relaxed">${item.deskripsi}</p>
-                </div>
-            </div>`;
-        kartu.querySelector('.flip-inner').addEventListener('click', function () {
-            flipCard(this);
-        });
-        return kartu;
+            </div>
+        `).join('');
     }
 
-    /**
-     * Mengaktifkan mode "klik-geser" (drag-to-scroll) horizontal dengan
-     * mouse untuk pengguna desktop. Di perangkat sentuh, geser jari bawaan
-     * browser tetap berfungsi tanpa memerlukan fungsi ini.
-     * @param {HTMLElement} track
-     */
-    function enableDragScroll(track) {
+    // Mengatur rasio kartu agar persis sama dengan rasio asli fotonya.
+    // Karena tinggi kartu tetap, lebar otomatis menyesuaikan mengikuti
+    // aspect-ratio ini sehingga foto mengisi penuh bingkai tanpa
+    // terpotong dan tanpa sisa ruang kosong.
+    function adjustCardOrientation(img) {
+        const card = img.closest('.kegiatan-card');
+        if (card && img.naturalWidth && img.naturalHeight) {
+            card.style.aspectRatio = img.naturalWidth + ' / ' + img.naturalHeight;
+        }
+    }
+
+    // Ambil data dokumentasi harian, lalu aktifkan mode drag-to-scroll
+    // untuk pengguna mouse di desktop pada trek kartu.
+    document.addEventListener('DOMContentLoaded', () => {
+        const track = document.getElementById('magang-track');
+        if (!track) return;
+
+        fetch('kegiatan/data-kegiatan.json')
+            .then(res => res.ok ? res.json() : Promise.reject(res.status))
+            .then(data => renderKegiatan(data))
+            .catch(() => {
+                track.innerHTML = '<p class="text-sm text-brand-sub py-10">Dokumentasi kegiatan belum dapat dimuat.</p>';
+            });
+
         let isDragging = false;
         let startX = 0;
         let scrollStart = 0;
@@ -721,36 +736,6 @@
             const x = e.pageX - track.offsetLeft;
             track.scrollLeft = scrollStart - (x - startX) * 2;
         });
-    }
-
-    /**
-     * Titik masuk bagian "Dokumentasi Harian Selama Magang". Seluruh kartu
-     * diambil apa adanya dari kegiatan/data-kegiatan.json dan ditampilkan
-     * satu per satu sesuai urutan di file tersebut -- TIDAK digandakan atau
-     * dibuat berputar tanpa akhir. Kalau isi file itu 26 entri, yang tampil
-     * juga tepat 26 kartu; pengunjung tinggal menggeser (drag/swipe) untuk
-     * melihat kartu selanjutnya seperti galeri foto biasa.
-     */
-    document.addEventListener('DOMContentLoaded', () => {
-        const track = document.getElementById('magang-track');
-        if (!track) return;
-
-        fetch('kegiatan/data-kegiatan.json')
-            .then(res => res.ok ? res.json() : Promise.reject(res.status))
-            .then(items => {
-                if (!Array.isArray(items) || items.length === 0) {
-                    throw new Error('Data kegiatan kosong');
-                }
-                track.innerHTML = '';
-                items.forEach(item => track.appendChild(buildKartuMagang(item)));
-                enableDragScroll(track);
-            })
-            .catch(() => {
-                track.innerHTML = `
-                    <div class="w-full py-16 text-center text-sm text-brand-sub">
-                        Dokumentasi harian sedang tidak dapat dimuat. Silakan muat ulang halaman.
-                    </div>`;
-            });
     });
 
     // Tiga liputan terbaru diambil dari manifest.json; jika gagal dimuat,
