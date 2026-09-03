@@ -104,6 +104,20 @@
             border-radius: 0.5rem;
             color: white;
         }
+
+        /* Animasi masuk untuk sampul dan kartu galeri: memberi kesan
+           halaman "hidup" saat data selesai dimuat, tanpa library
+           tambahan (murni CSS, ringan). */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        #gallery-hero.is-visible {
+            animation: fadeInUp 0.5s ease both;
+        }
+        .gallery-item {
+            animation: fadeInUp 0.45s ease both;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-accent selection:text-white">
@@ -203,13 +217,28 @@
         </div>
     </header>
 
-    <!-- Galeri publikasi: satu grid menyatu, publikasi terbaru tampil lebih besar, sisanya sebagai thumbnail -->
+    <!-- Galeri publikasi: publikasi terbaru sebagai sampul foto penuh, sisanya mengalir dalam layout masonry -->
     <section class="bg-brand-bg px-6 py-12 lg:py-16">
         <div class="mx-auto max-w-7xl">
-            <div id="gallery-grid" class="grid grid-cols-2 gap-4 sm:gap-5 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-                <p class="col-span-full py-16 text-center text-sm text-brand-sub">
-                    Memuat galeri publikasi...
-                </p>
+
+            <!-- Sampul: publikasi terbaru ditampilkan sebagai foto penuh dengan teks melayang di atasnya -->
+            <a id="gallery-hero" href="#" class="card-neo group relative mb-8 block overflow-hidden bg-white opacity-0 sm:mb-10">
+                <div class="relative aspect-[4/5] sm:aspect-[21/9] overflow-hidden bg-brand-bg">
+                    <img id="hero-img" src="" alt="" class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
+                    <div class="absolute inset-0 bg-gradient-to-t from-brand-header via-brand-header/40 to-transparent sm:via-brand-header/10"></div>
+                    <span class="absolute left-4 top-4 rounded border-2 border-white bg-brand-accent px-3 py-1 text-[10px] font-bold uppercase text-white shadow-[2px_2px_0_rgba(15,23,42,0.4)] sm:left-6 sm:top-6 sm:text-xs">
+                        Publikasi Terbaru
+                    </span>
+                    <div class="absolute inset-x-0 bottom-0 p-4 sm:p-8 lg:p-10">
+                        <h2 id="hero-title" class="mb-2 max-w-3xl text-lg font-bold leading-tight text-white sm:mb-3 sm:text-2xl lg:text-3xl"></h2>
+                        <div id="hero-meta" class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-white/85 sm:text-sm"></div>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Galeri masonry: setiap foto tampil dengan proporsi aslinya, mengalir tanpa baris kosong -->
+            <div id="gallery-grid" class="columns-2 gap-4 sm:columns-3 sm:gap-5 lg:columns-4 lg:gap-6">
+                <p class="text-sm text-brand-sub">Memuat galeri publikasi...</p>
             </div>
         </div>
     </section>
@@ -255,6 +284,10 @@
     <!-- Pemuatan data publikasi dari manifest.json dan render galeri -->
     <script>
         (function () {
+            const heroEl = document.getElementById('gallery-hero');
+            const heroImg = document.getElementById('hero-img');
+            const heroTitle = document.getElementById('hero-title');
+            const heroMeta = document.getElementById('hero-meta');
             const gridEl = document.getElementById('gallery-grid');
             const statEl = document.getElementById('stat-total');
             const bulan = [
@@ -285,58 +318,65 @@
                 const dow = new Date(y, m - 1, d).getDay();
                 return `${hari[dow]}, ${String(d).padStart(2, '0')} ${bulan[m - 1]} ${y}`;
             }
+            function formatTanggalSingkat(iso) {
+                const [, m, d] = iso.split('-').map(Number);
+                return `${String(d).padStart(2, '0')} ${bulan[m - 1].slice(0, 3)}`;
+            }
 
-            // Render seluruh publikasi dalam satu grid. Publikasi paling
-            // baru (indeks 0) mengisi dua kolom dan dua baris agar tampil
-            // menonjol; publikasi lain ditampilkan sebagai thumbnail
-            // seragam. Semua kartu tetap memuat foto agar halaman terasa
-            // sebagai galeri visual, dengan loading="lazy" untuk menjaga
-            // performa saat jumlah publikasi bertambah banyak.
+            // Publikasi terbaru ditampilkan sebagai sampul foto penuh
+            // dengan judul dan tanggal/lokasi melayang di atas foto,
+            // bukan lagi kotak teks terpisah di bawah foto, sehingga
+            // tidak ada ruang kosong.
+            function renderHero(item) {
+                heroEl.href = item.link;
+                heroImg.src = item.foto;
+                heroImg.alt = item.judul;
+                heroTitle.textContent = item.judul;
+                heroMeta.innerHTML = `
+                    <span><i class="fa-solid fa-calendar-days mr-1.5"></i>${formatTanggal(item.tanggal)}</span>
+                    ${item.lokasi ? `<span><i class="fa-solid fa-location-dot mr-1.5"></i>${item.lokasi}</span>` : ''}
+                `;
+                heroEl.classList.add('is-visible');
+            }
+
+            // Publikasi selain sampul ditampilkan dalam layout masonry:
+            // setiap foto memakai proporsi aslinya (tanpa aspect-ratio
+            // dipaksakan) sehingga tidak ada bagian yang terpotong dan
+            // tidak ada ruang kosong. Item mengalir mengisi kolom
+            // terpendek lebih dahulu, sehingga baris terakhir tidak
+            // pernah tampak pincang seperti pada grid seragam. Animasi
+            // masuk diberi jeda bertahap per kartu agar galeri terasa
+            // hidup saat pertama kali dimuat.
             function renderGallery(items) {
                 if (!items.length) {
                     gridEl.innerHTML = `
-                        <p class="col-span-full py-16 text-center text-sm text-brand-sub">
-                            Belum ada publikasi yang tersedia.
+                        <p class="text-sm text-brand-sub">
+                            Belum ada publikasi lain yang tersedia.
                         </p>
                     `;
                     return;
                 }
 
-                gridEl.innerHTML = items.map((item, index) => {
-                    const featured = index === 0;
-
-                    return `
-                        <a href="${item.link}" class="card-neo group flex flex-col overflow-hidden bg-white transition hover:-translate-y-1 ${featured ? 'col-span-2 row-span-2' : ''}">
-                            <div class="relative overflow-hidden bg-brand-bg ${featured ? 'aspect-[4/3] sm:aspect-[16/10]' : 'aspect-square'}">
-                                <img src="${item.foto}" alt="${item.judul}" class="h-full w-full object-cover transition duration-300 group-hover:scale-105" loading="lazy">
-                                <span class="absolute left-2 top-2 rounded border-2 border-brand-header bg-kat-liputan px-1.5 py-0.5 text-[8px] font-bold uppercase text-white shadow-[2px_2px_0_#1E3A8A] ${featured ? 'sm:left-3 sm:top-3 sm:px-2.5 sm:py-1 sm:text-[10px]' : ''}">
-                                    ${featured ? 'Terbaru' : (item.kategori || 'Liputan')}
-                                </span>
+                gridEl.innerHTML = items.map((item, index) => `
+                    <a href="${item.link}" class="gallery-item card-neo group mb-4 block overflow-hidden bg-white transition hover:-translate-y-1 sm:mb-5 lg:mb-6" style="animation-delay:${Math.min(index * 0.05, 0.5)}s">
+                        <div class="relative overflow-hidden bg-brand-bg">
+                            <img src="${item.foto}" alt="${item.judul}" class="w-full transition duration-300 group-hover:scale-105" loading="lazy">
+                            <span class="absolute left-2 top-2 rounded border-2 border-brand-header bg-kat-liputan px-1.5 py-0.5 text-[8px] font-bold uppercase text-white shadow-[2px_2px_0_#1E3A8A]">
+                                ${item.kategori || 'Liputan'}
+                            </span>
+                        </div>
+                        <div class="p-3">
+                            <h3 class="line-clamp-2 text-[11px] font-bold leading-snug text-brand-header sm:text-xs">
+                                ${item.judul}
+                            </h3>
+                            <div class="mt-2 flex flex-wrap items-center gap-x-2 text-[9px] text-brand-sub sm:text-[10px]">
+                                <i class="fa-solid fa-calendar-days text-brand-accent"></i>
+                                ${formatTanggalSingkat(item.tanggal)}
+                                ${item.lokasi ? `<span class="truncate">&middot; ${item.lokasi}</span>` : ''}
                             </div>
-                            <div class="flex flex-1 flex-col p-2.5 ${featured ? 'sm:p-5' : ''}">
-                                <h3 class="line-clamp-2 text-[11px] font-bold leading-snug text-brand-header ${featured ? 'sm:text-lg' : 'sm:text-xs'}">
-                                    ${item.judul}
-                                </h3>
-                                <div class="mt-auto flex flex-wrap gap-x-3 gap-y-1 pt-2 text-[9px] text-brand-sub ${featured ? 'sm:text-xs' : ''}">
-                                    <span>
-                                        <i class="fa-solid fa-calendar-days mr-1 text-brand-accent"></i>
-                                        ${featured ? formatTanggal(item.tanggal) : item.tanggal.slice(8, 10) + ' ' + bulan[Number(item.tanggal.slice(5, 7)) - 1].slice(0, 3)}
-                                    </span>
-                                    ${
-                                        featured && item.lokasi
-                                        ? `
-                                            <span>
-                                                <i class="fa-solid fa-location-dot mr-1 text-brand-accent"></i>
-                                                ${item.lokasi}
-                                            </span>
-                                        `
-                                        : ''
-                                    }
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                }).join('');
+                        </div>
+                    </a>
+                `).join('');
             }
 
             // Ambil seluruh data publikasi dari manifest.json
@@ -354,12 +394,14 @@
                     );
 
                     statEl.textContent = urut.length;
-                    renderGallery(urut);
+                    renderHero(urut[0]);
+                    renderGallery(urut.slice(1));
                 })
                 .catch(() => {
                     statEl.textContent = '–';
+                    heroEl.classList.add('hidden');
                     gridEl.innerHTML = `
-                        <p class="col-span-full py-16 text-center text-sm text-brand-sub">
+                        <p class="text-sm text-brand-sub">
                             Galeri belum dapat dimuat. Silakan coba kembali beberapa saat lagi.
                         </p>
                     `;
