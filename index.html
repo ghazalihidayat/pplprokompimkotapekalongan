@@ -10,6 +10,8 @@
     <meta property="og:description" content="Dokumentasi pengalaman, ruang lingkup kegiatan, pembelajaran, dan karya mahasiswa KPI selama PPL di Prokompim Kota Pekalongan.">
     <meta property="og:image" content="https://www.pplprokompimkotapekalongan.web.id/aset-profil/Logo-PPL.svg">
     <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.pplprokompimkotapekalongan.web.id/">
+    <meta name="theme-color" content="#1E3A8A">
 
     <!-- Ikon situs dan gambar pratinjau saat tautan dibagikan -->
     <link rel="icon" href="aset-profil/Logo-PPL.svg" type="image/svg+xml">
@@ -17,35 +19,12 @@
     <!-- Pustaka eksternal: Tailwind CSS dan Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Konfigurasi warna dan tipografi Tailwind khusus situs -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-bg': '#F0F4F8',
-                        'brand-sub': '#475569',
-                        'brand-div': '#93C5FD',
-                        'brand-header': '#1E3A8A',
-                        'brand-text': '#1E293B',
-                        'brand-dark': '#1E3A8A',
-                        'brand-accent': '#3B82F6',
-                        'kat-liputan': '#3B82F6',
-                        'kat-jurnal': '#0D9488',
-                    },
-                    fontFamily: {
-                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
-                        'display': ['Plus Jakarta Sans', 'sans-serif'],
-                        'brand': ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
-
-    <!-- Font kustom dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Konfigurasi tema Tailwind bersama (dipakai seluruh halaman situs) -->
+    <script src="aset-profil/tailwind-config.js"></script>
 
     <!-- Penyesuaian gaya tambahan di luar utility class Tailwind -->
     <style>
@@ -93,9 +72,7 @@
             color: white;
         }
 
-        /* Efek neobrutalism khusus judul hero: baris pertama memakai teks
-           bertumpuk (stacked shadow) dan baris kedua tampil seperti stiker
-           miring dengan border tebal + bayangan keras, khas neobrutalism. */
+        /* Aksen neobrutalism pada judul hero: stacked shadow + stiker miring */
         .hero-line-1 {
             text-shadow: 3px 3px 0 #BFDBFE, 4px 4px 0 #1E3A8A;
         }
@@ -113,9 +90,7 @@
             box-shadow: 8px 8px 0px #1E3A8A;
         }
 
-        /* Kartu dokumentasi harian bisa dibalik (flip) untuk menampilkan
-           keterangan foto. Properti perspective & preserve-3d dibutuhkan
-           supaya efek putar terlihat seperti kartu fisik, bukan pipih. */
+        /* Efek flip 3D pada kartu dokumentasi harian */
         .perspective-1000 { perspective: 1000px; }
         .preserve-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
@@ -128,23 +103,13 @@
             transform: rotateY(180deg);
         }
 
-        /* Scrollbar carousel disembunyikan agar tampilan tetap bersih,
-           geser tetap berfungsi normal lewat drag mouse atau sentuhan. */
+        /* Scrollbar carousel disembunyikan; navigasi tetap via drag/swipe */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Bingkai kartu dokumentasi harian. Lebar berbeda per breakpoint,
-           tetapi tinggi keduanya selalu sama pada breakpoint yang sama
-           (280x210, 340x255, 400x300, 440x330) sehingga kartu landscape
-           dan portrait tetap sejajar rapi dalam satu baris. Rasio 4:3 dan
-           3:4 dipilih karena paling mewakili sebagian besar foto asli. */
-        /* Bingkai kartu dokumentasi harian. Tinggi tetap sama di semua
-           kartu pada satu breakpoint, sedangkan lebar mengikuti rasio
-           asli tiap foto (diisi lewat JavaScript setelah foto termuat).
-           Dengan begitu foto selalu tampil penuh tanpa terpotong dan
-           tanpa ruang kosong, dan baris kartu tetap sejajar karena
-           tingginya seragam. Rasio 4/3 di bawah hanya nilai awal
-           sebelum ukuran asli foto diketahui. */
+        /* Kartu dokumentasi harian: tinggi tetap per breakpoint, lebar
+           menyesuaikan rasio asli foto (dihitung via JS setelah dimuat).
+           Rasio 4/3 di bawah hanya nilai awal sebelum foto termuat. */
         .kegiatan-card {
             height: 260px;
             flex-shrink: 0;
@@ -307,12 +272,12 @@
     }
 </style>
 
-<!-- Perilaku carousel foto: memuat data, mengatur urutan kartu, dan animasi putar -->
+<!-- Perilaku carousel foto: susun kartu bertumpuk dan animasi rotasi otomatis -->
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const wrapper = document.getElementById('instansWrapper');
         function buildInstans(data) {
-            wrapper.innerHTML = ''; // Hapus teks loading
+            wrapper.innerHTML = '';
             let autoRollInterval;
             
             data.forEach((item, index) => {
@@ -380,24 +345,19 @@
             });
         }
         
-        // Ambil data foto dari manifest.json — seluruh aset artikel ditampilkan
-        // dalam carousel agar tidak berulang-ulang di 5 foto yang sama.
+        // Seluruh foto liputan dari manifest.json ditampilkan di carousel.
+        // Jika manifest gagal dimuat, tiga foto tetap dipakai sebagai fallback.
         fetch('manifest.json')
             .then(res => res.ok ? res.json() : Promise.reject(res.status))
             .then(data => {
                 const semuaFoto = [...data].sort((a, b) => b.tanggal.localeCompare(a.tanggal));
-                if (semuaFoto.length > 0) {
-                    buildInstans(semuaFoto);
-                }
+                if (semuaFoto.length > 0) buildInstans(semuaFoto);
             })
-            .catch(() => {
-                const dummyData = [
-                    { foto: 'aset-artikel/igtki-pgri.jpeg', judul: 'Fallback 1' },
-                    { foto: 'aset-artikel/mtq-manic.jpeg', judul: 'Fallback 2' },
-                    { foto: 'aset-artikel/rsud-bendan.jpeg', judul: 'Fallback 3' }
-                ];
-                buildInstans(dummyData);
-            });
+            .catch(() => buildInstans([
+                { foto: 'aset-artikel/sertijab-lapas.jpeg', judul: 'Liputan Kegiatan Prokompim' },
+                { foto: 'aset-artikel/tirakatan.jpeg', judul: 'Liputan Kegiatan Prokompim' },
+                { foto: 'aset-artikel/dolan-paud.jpeg', judul: 'Liputan Kegiatan Prokompim' }
+            ]));
     });
 </script>
 
@@ -593,7 +553,10 @@
         </div>
     </div>
 
-    <!-- Subbagian 2: liputan kegiatan pimpinan, tiga berita terbaru diambil dari manifest.json -->
+    <!-- Subbagian 2: tiga liputan pilihan tim. Konten di bawah adalah fallback
+         statis yang tampil bila manifest.json gagal dimuat; dalam kondisi
+         normal, grid ini disinkronkan ulang via JS mengikuti PILIHAN di
+         script bawah (urutan dan sumber data tetap konsisten). -->
     <div class="max-w-7xl mx-auto">
         <div class="px-2 mb-6">
             <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_#1E3A8A] mb-3">Publikasi Media</span>
@@ -601,42 +564,42 @@
         </div>
 
         <div id="karya-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <a href="berita/Igtki-pgri.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/sertijab-lapas.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
-                    <img src="aset-artikel/igtki-pgri.jpeg" alt="Semarak HUT ke-81 RI IGTKI-PGRI dan Brimob" class="w-full h-full object-cover">
+                    <img src="aset-artikel/sertijab-lapas.jpeg" alt="Serah terima jabatan Kepala Lapas Kelas IIA Kota Pekalongan" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
-                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Ketua TP-PKK Kota Pekalongan Dorong Sinergi IGTKI-PGRI dan Brimob dalam Penguatan Pendidikan Anak</h4>
+                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Kalapas Baru Resmi Bertugas, Pemkot Pekalongan Perkuat Komitmen Kolaborasi</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
-                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Selasa, 11 Agustus 2026</span>
-                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Mako Brimob Batalyon B Pekalongan</span>
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Kamis, 27 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Lapas Kelas IIA Kota Pekalongan</span>
                     </div>
                 </div>
             </a>
-            <a href="berita/manic-mtq.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/tirakatan-pengukuhan.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
-                    <img src="aset-artikel/mtq-manic.jpeg" alt="Pamitan Kontingen Pelajar Pekalongan" class="w-full h-full object-cover">
+                    <img src="aset-artikel/tirakatan.jpeg" alt="Pengukuhan Paskibraka Kota Pekalongan 2026" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
-                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Pelajar Pekalongan Siap Berlaga di Tiga Kompetisi Nasional, Wali Kota Beri Dukungan</h4>
+                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Paskibraka Kota Pekalongan 2026 Dikukuhkan, Jelang Tugas Pengibaran Merah Putih</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
-                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Senin, 10 Agustus 2026</span>
-                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Ruang Buketan, Sekretariat Daerah Kota Pekalongan</span>
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Sabtu, 15 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>GOR Jetayu, Kota Pekalongan</span>
                     </div>
                 </div>
             </a>
-            <a href="berita/rsud-bendan.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/dolan-paud.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
-                    <img src="aset-artikel/rsud-bendan.jpeg" alt="Survei Akreditasi RSUD Bendan" class="w-full h-full object-cover">
+                    <img src="aset-artikel/dolan-paud.jpeg" alt="Kegiatan Dolan PAUD di KB Rainbow Preschool Setono" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
-                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Wali Kota Pekalongan Buka Survei Akreditasi RSUD Bendan, Dorong Peningkatan Mutu Layanan</h4>
+                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Dolan PAUD Jadi Ruang Serap Aspirasi, Bunda PAUD Pekalongan Tekankan Peran Orang Tua</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
-                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Senin, 10 Agustus 2026</span>
-                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>RSUD Bendan, Kota Pekalongan</span>
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Jumat, 21 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>KB Rainbow Preschool, Setono</span>
                     </div>
                 </div>
             </a>
@@ -651,8 +614,7 @@
 
 <!-- Interaksi bagian Karya: flip kartu, drag carousel, dan pemuatan liputan terbaru -->
 <script>
-    // Kartu dokumentasi harian dibalik saat diklik, lalu kembali sendiri
-    // setelah 5 detik supaya pengunjung tidak perlu klik dua kali.
+    // Balik kartu dokumentasi harian saat diklik; otomatis kembali setelah 5 detik.
     function flipCard(element) {
         if (element.classList.contains('is-flipped')) {
             element.classList.remove('is-flipped');
@@ -669,11 +631,7 @@
     }
 
     // Render kartu dokumentasi harian dari kegiatan/data-kegiatan.json.
-    // Tinggi kartu tetap (diatur lewat CSS .kegiatan-card), sedangkan
-    // lebar mengikuti rasio asli tiap foto lewat adjustCardOrientation()
-    // begitu gambar selesai dimuat. Hasilnya foto selalu tampil penuh
-    // tanpa terpotong dan tanpa ruang kosong. Jumlah kartu mengikuti
-    // jumlah data apa adanya, tanpa digandakan.
+    // Lebar tiap kartu mengikuti rasio asli fotonya (lihat adjustCardOrientation).
     function renderKegiatan(data) {
         const track = document.getElementById('magang-track');
         if (!track) return;
@@ -697,10 +655,7 @@
         `).join('');
     }
 
-    // Mengatur rasio kartu agar persis sama dengan rasio asli fotonya.
-    // Karena tinggi kartu tetap, lebar otomatis menyesuaikan mengikuti
-    // aspect-ratio ini sehingga foto mengisi penuh bingkai tanpa
-    // terpotong dan tanpa sisa ruang kosong.
+    // Sinkronkan aspect-ratio kartu dengan dimensi asli foto agar tidak terpotong.
     function adjustCardOrientation(img) {
         const card = img.closest('.kegiatan-card');
         if (card && img.naturalWidth && img.naturalHeight) {
@@ -708,8 +663,7 @@
         }
     }
 
-    // Ambil data dokumentasi harian, lalu aktifkan mode drag-to-scroll
-    // untuk pengguna mouse di desktop pada trek kartu.
+    // Muat data dokumentasi harian dan aktifkan drag-to-scroll untuk desktop.
     document.addEventListener('DOMContentLoaded', () => {
         const track = document.getElementById('magang-track');
         if (!track) return;
@@ -750,54 +704,74 @@
         });
     });
 
-    // Nama hari dan bulan dalam Bahasa Indonesia, dipakai formatTanggalIndo()
-    // di bawah supaya format tanggal di kartu berita konsisten dengan
-    // halaman artikel ("Hari, tanggal Bulan tahun").
+    // Format tanggal ISO ("2026-08-21") menjadi format Indonesia baku,
+    // konsisten dengan halaman artikel: "Jumat, 21 Agustus 2026".
     const HARI_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const BULAN_ID = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
-    /**
-     * Mengubah tanggal ISO ("2026-08-21") dari manifest.json menjadi format
-     * tanggal Indonesia baku, contoh: "Jumat, 21 Agustus 2026".
-     * @param {string} isoDate - tanggal berformat YYYY-MM-DD.
-     * @returns {string}
-     */
     function formatTanggalIndo(isoDate) {
         const d = new Date(isoDate + 'T00:00:00');
         const tanggal = String(d.getDate()).padStart(2, '0');
         return `${HARI_ID[d.getDay()]}, ${tanggal} ${BULAN_ID[d.getMonth()]} ${d.getFullYear()}`;
     }
 
-    // Tiga liputan terbaru diambil dari manifest.json, lengkap dengan
-    // tanggal dan lokasi kegiatan supaya kartu lebih informatif (tidak
-    // hanya judul). Jika gagal dimuat, tiga kartu contoh yang sudah
-    // tertulis di HTML akan tetap tampil sebagai fallback.
+    // Escape sederhana untuk mencegah HTML injection saat data dirender via template literal.
+    function escapeHtml(str) {
+        return String(str).replace(/[&<>"']/g, c => ({
+            '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+        }[c]));
+    }
+
+    function renderKaryaCard(item) {
+        return `
+            <a href="${escapeHtml(item.link)}" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
+                <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
+                    <img src="${escapeHtml(item.foto)}" alt="${escapeHtml(item.judul)}" class="w-full h-full object-cover" loading="lazy">
+                    <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">${escapeHtml(item.kategori || 'Liputan Kegiatan')}</span>
+                </div>
+                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">${escapeHtml(item.judul)}</h4>
+                    <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>${formatTanggalIndo(item.tanggal)}</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>${escapeHtml(item.lokasi)}</span>
+                    </div>
+                </div>
+            </a>
+        `;
+    }
+
+    // Liputan pilihan tim ditampilkan sesuai urutan tetap berikut. Bila salah
+    // satu berkas manifest tidak ditemukan (misal artikel dipindah/dihapus),
+    // slot tersebut otomatis diisi liputan terbaru lain sebagai gantinya.
+    // Bila manifest.json sendiri gagal dimuat, tiga kartu statis yang sudah
+    // tertulis di HTML tetap tampil sebagai fallback.
     (function () {
         const grid = document.getElementById('karya-grid');
+        const PILIHAN = ['sertijab-lapas.html', 'tirakatan-pengukuhan.html', 'dolan-paud.html'];
 
         fetch('manifest.json')
             .then(res => res.ok ? res.json() : Promise.reject(res.status))
             .then(data => {
-                const terbaru = [...data].sort((a, b) => b.tanggal.localeCompare(a.tanggal)).slice(0, 3);
-                if (terbaru.length === 0) return;
+                const terurut = [...data].sort((a, b) => b.tanggal.localeCompare(a.tanggal));
+                const slug = item => item.link.split('/').pop();
 
-                grid.innerHTML = terbaru.map(item => `
-                    <a href="${item.link}" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
-                        <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
-                            <img src="${item.foto}" alt="${item.judul}" class="w-full h-full object-cover">
-                            <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
-                        </div>
-                        <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
-                            <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">${item.judul}</h4>
-                            <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
-                                <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>${formatTanggalIndo(item.tanggal)}</span>
-                                <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>${item.lokasi}</span>
-                            </div>
-                        </div>
-                    </a>
-                `).join('');
+                const terpilih = PILIHAN
+                    .map(target => terurut.find(item => slug(item) === target))
+                    .filter(Boolean);
+
+                const sudahDipakai = new Set(terpilih.map(item => item.link));
+                for (const item of terurut) {
+                    if (terpilih.length >= 3) break;
+                    if (!sudahDipakai.has(item.link)) {
+                        terpilih.push(item);
+                        sudahDipakai.add(item.link);
+                    }
+                }
+
+                if (terpilih.length === 0) return; // manifest kosong -> fallback HTML tetap tampil
+                grid.innerHTML = terpilih.map(renderKaryaCard).join('');
             })
-            .catch(() => {}); // manifest gagal dimuat -> fallback HTML dibiarkan tampil
+            .catch(() => {}); // manifest gagal dimuat -> fallback HTML tetap tampil
     })();
 </script>
 
@@ -809,7 +783,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div class="card-neo p-6 bg-white">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
-                    <img src="aset-profil/Ghazali.jpeg" alt="Foto Mazda Ghazali Hidayat" class="w-full h-full object-cover">
+                    <img src="aset-profil/Ghazali.jpeg" alt="Foto Mazda Ghazali Hidayat" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 <h4 class="font-bold text-base text-brand-header leading-tight mb-1">Mazda Ghazali Hidayat</h4>
                 <p class="text-xs font-bold text-brand-accent">
@@ -818,7 +792,7 @@
             </div>
             <div class="card-neo p-6 bg-white">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
-                    <img src="aset-profil/Nabila.jpeg" alt="Foto Nabilla R. Citra Anggraeny" class="w-full h-full object-cover">
+                    <img src="aset-profil/Nabila.jpeg" alt="Foto Nabilla R. Citra Anggraeny" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 <h4 class="font-bold text-base text-brand-header leading-tight mb-1">Nabilla R. Citra Anggraeny</h4>
                 <p class="text-xs font-bold text-brand-accent">
@@ -827,7 +801,7 @@
             </div>
             <div class="card-neo p-6 bg-white">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
-                    <img src="aset-profil/Fara.jpeg" alt="Foto Fara Azahra" class="w-full h-full object-cover">
+                    <img src="aset-profil/Fara.jpeg" alt="Foto Fara Azahra" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 <h4 class="font-bold text-base text-brand-header leading-tight mb-1">Fara Azahra</h4>
                 <p class="text-xs font-bold text-brand-accent">
@@ -836,7 +810,7 @@
             </div>
             <div class="card-neo p-6 bg-white">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
-                    <img src="aset-profil/Intan.jpeg" alt="Foto Intan Fatmah Farkhati" class="w-full h-full object-cover">
+                    <img src="aset-profil/Intan.jpeg" alt="Foto Intan Fatmah Farkhati" class="w-full h-full object-cover" loading="lazy">
                 </div>
                 <h4 class="font-bold text-base text-brand-header leading-tight mb-1">Intan Fatmah Farkhati</h4>
                 <p class="text-xs font-bold text-brand-accent">

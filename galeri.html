@@ -10,6 +10,8 @@
     <meta property="og:description" content="Publikasi kegiatan, liputan, dan karya mahasiswa selama pelaksanaan PPL di Prokompim Kota Pekalongan.">
     <meta property="og:image" content="https://www.pplprokompimkotapekalongan.web.id/aset-profil/Logo-PPL.svg">
     <meta property="og:type" content="website">
+    <link rel="canonical" href="https://www.pplprokompimkotapekalongan.web.id/galeri.html">
+    <meta name="theme-color" content="#1E3A8A">
 
     <!-- Ikon situs dan gambar pratinjau saat tautan dibagikan -->
     <link rel="icon" href="aset-profil/Logo-PPL.svg" type="image/svg+xml">
@@ -21,31 +23,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- Konfigurasi warna dan tipografi Tailwind khusus situs -->
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'brand-bg': '#F0F4F8',
-                        'brand-sub': '#475569',
-                        'brand-div': '#93C5FD',
-                        'brand-header': '#1E3A8A',
-                        'brand-text': '#1E293B',
-                        'brand-dark': '#1E3A8A',
-                        'brand-accent': '#3B82F6',
-                        'kat-liputan': '#3B82F6',
-                        'kat-jurnal': '#0D9488',
-                    },
-                    fontFamily: {
-                        'sans': ['Plus Jakarta Sans', 'sans-serif'],
-                        'display': ['Plus Jakarta Sans', 'sans-serif'],
-                        'brand': ['Plus Jakarta Sans', 'sans-serif'],
-                    }
-                }
-            }
-        }
-    </script>
+    <!-- Konfigurasi tema Tailwind bersama (dipakai seluruh halaman situs) -->
+    <script src="aset-profil/tailwind-config.js"></script>
     <!-- Penyesuaian gaya tambahan di luar utility class Tailwind -->
     <style>
         html,
@@ -323,6 +302,13 @@
                 return `${String(d).padStart(2, '0')} ${bulan[m - 1].slice(0, 3)}`;
             }
 
+            // Defense-in-depth terhadap XSS saat data manifest dirender via template literal
+            function escapeHtml(str) {
+                return String(str).replace(/[&<>"']/g, c => ({
+                    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+                }[c]));
+            }
+
             // Publikasi terbaru ditampilkan sebagai sampul foto penuh
             // dengan judul dan tanggal/lokasi melayang di atas foto,
             // bukan lagi kotak teks terpisah di bawah foto, sehingga
@@ -334,7 +320,7 @@
                 heroTitle.textContent = item.judul;
                 heroMeta.innerHTML = `
                     <span><i class="fa-solid fa-calendar-days mr-1.5"></i>${formatTanggal(item.tanggal)}</span>
-                    ${item.lokasi ? `<span><i class="fa-solid fa-location-dot mr-1.5"></i>${item.lokasi}</span>` : ''}
+                    ${item.lokasi ? `<span><i class="fa-solid fa-location-dot mr-1.5"></i>${escapeHtml(item.lokasi)}</span>` : ''}
                 `;
                 heroEl.classList.add('is-visible');
             }
@@ -358,21 +344,21 @@
                 }
 
                 gridEl.innerHTML = items.map((item, index) => `
-                    <a href="${item.link}" class="gallery-item card-neo group mb-4 block overflow-hidden bg-white transition hover:-translate-y-1 sm:mb-5 lg:mb-6" style="animation-delay:${Math.min(index * 0.05, 0.5)}s">
+                    <a href="${escapeHtml(item.link)}" class="gallery-item card-neo group mb-4 block overflow-hidden bg-white transition hover:-translate-y-1 sm:mb-5 lg:mb-6" style="animation-delay:${Math.min(index * 0.05, 0.5)}s">
                         <div class="relative overflow-hidden bg-brand-bg">
-                            <img src="${item.foto}" alt="${item.judul}" class="w-full transition duration-300 group-hover:scale-105" loading="lazy">
+                            <img src="${escapeHtml(item.foto)}" alt="${escapeHtml(item.judul)}" class="w-full transition duration-300 group-hover:scale-105" loading="lazy">
                             <span class="absolute left-2 top-2 rounded border-2 border-brand-header bg-kat-liputan px-1.5 py-0.5 text-[8px] font-bold uppercase text-white shadow-[2px_2px_0_#1E3A8A]">
-                                ${item.kategori || 'Liputan'}
+                                ${escapeHtml(item.kategori || 'Liputan')}
                             </span>
                         </div>
                         <div class="p-3">
                             <h3 class="line-clamp-2 text-[11px] font-bold leading-snug text-brand-header sm:text-xs">
-                                ${item.judul}
+                                ${escapeHtml(item.judul)}
                             </h3>
                             <div class="mt-2 flex flex-wrap items-center gap-x-2 text-[9px] text-brand-sub sm:text-[10px]">
                                 <i class="fa-solid fa-calendar-days text-brand-accent"></i>
                                 ${formatTanggalSingkat(item.tanggal)}
-                                ${item.lokasi ? `<span class="truncate">&middot; ${item.lokasi}</span>` : ''}
+                                ${item.lokasi ? `<span class="truncate">&middot; ${escapeHtml(item.lokasi)}</span>` : ''}
                             </div>
                         </div>
                     </a>
