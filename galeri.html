@@ -97,6 +97,15 @@
         .gallery-item {
             animation: fadeInUp 0.45s ease both;
         }
+
+        /* Kartu ringkasan statistik: tinggi disamakan lewat min-height agar
+           kelima kartu sejajar meski label ada yang membungkus dua baris. */
+        .stat-card {
+            min-height: 92px;
+        }
+        @media (min-width: 640px) {
+            .stat-card { min-height: 108px; }
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-accent selection:text-white">
@@ -201,40 +210,40 @@
                     </span>
                 </p>
                 <div id="stats-grid" class="flex flex-wrap justify-center gap-3 sm:grid sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
-                <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-start gap-2">
-                        <i class="fa-solid fa-user-tie mt-0.5 shrink-0 text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wali Kota</p>
+                <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wali Kota</p>
+                    <div class="flex items-end justify-between gap-2">
+                        <i class="fa-solid fa-user-tie shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <p id="stat-walkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
-                    <p id="stat-walkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
-                <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-start gap-2">
-                        <i class="fa-solid fa-user-group mt-0.5 shrink-0 text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wakil Wali Kota</p>
+                <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wakil Wali Kota</p>
+                    <div class="flex items-end justify-between gap-2">
+                        <i class="fa-solid fa-user-group shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <p id="stat-wawalkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
-                    <p id="stat-wawalkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
-                <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-start gap-2">
-                        <i class="fa-solid fa-users mt-0.5 shrink-0 text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Ketua TP-PKK</p>
+                <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Ketua TP-PKK</p>
+                    <div class="flex items-end justify-between gap-2">
+                        <i class="fa-solid fa-people-roof shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <p id="stat-pkk" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
-                    <p id="stat-pkk" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
-                <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-start gap-2">
-                        <i class="fa-solid fa-user-check mt-0.5 shrink-0 text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Sekda</p>
+                <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Sekda</p>
+                    <div class="flex items-end justify-between gap-2">
+                        <i class="fa-solid fa-building-columns shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <p id="stat-sekda" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
-                    <p id="stat-sekda" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
-                <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-start gap-2">
-                        <i class="fa-solid fa-newspaper mt-0.5 shrink-0 text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Total Publikasi</p>
+                <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Total Publikasi</p>
+                    <div class="flex items-end justify-between gap-2">
+                        <i class="fa-solid fa-newspaper shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <p id="stat-total" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
-                    <p id="stat-total" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
                 </div>
             </div>
@@ -250,7 +259,7 @@
                 <div class="relative aspect-[4/5] sm:aspect-[21/9] overflow-hidden bg-brand-bg">
                     <img id="hero-img" src="" alt="" class="h-full w-full object-cover object-top transition duration-500 group-hover:scale-105">
                     <div class="absolute inset-0 bg-gradient-to-t from-brand-header via-brand-header/40 to-transparent sm:via-brand-header/10"></div>
-                    <span class="absolute left-4 top-4 rounded-md border-2 border-brand-header bg-kat-liputan px-3 py-1.5 text-[10px] font-bold uppercase text-white shadow-[2px_2px_0_#1E3A8A] sm:left-6 sm:top-6 sm:text-xs">
+                    <span class="absolute left-3 top-3 rounded bg-kat-liputan px-2 py-1 text-[10px] font-bold uppercase text-white sm:left-4 sm:top-4">
                         Liputan Kegiatan
                     </span>
                     <div class="absolute inset-x-0 bottom-0 p-4 sm:p-8 lg:p-10">
@@ -389,12 +398,18 @@
                 sekda: 1
             };
 
+            // Angka satu digit ditampilkan dengan leading zero (1 -> 01),
+            // angka dua digit atau lebih ditampilkan apa adanya.
+            function formatAngka(n) {
+                return n < 10 ? String(n).padStart(2, '0') : String(n);
+            }
+
             function renderStats(items) {
-                statTotalEl.textContent = items.length;
-                statWalkotEl.textContent = statManual.walkot;
-                statWawalkotEl.textContent = statManual.wawalkot;
-                statPkkEl.textContent = statManual.pkk;
-                statSekdaEl.textContent = statManual.sekda;
+                statTotalEl.textContent = formatAngka(items.length);
+                statWalkotEl.textContent = formatAngka(statManual.walkot);
+                statWawalkotEl.textContent = formatAngka(statManual.wawalkot);
+                statPkkEl.textContent = formatAngka(statManual.pkk);
+                statSekdaEl.textContent = formatAngka(statManual.sekda);
             }
 
             // Kartu satu publikasi. `compact` dipakai saat kartu berbagi baris
@@ -414,7 +429,7 @@
                     <a href="${escapeHtml(item.link)}" class="gallery-item card-neo group flex h-full flex-col overflow-hidden bg-white transition hover:-translate-y-1" style="animation-delay:${Math.min(index * 0.05, 0.4)}s">
                         <div class="relative overflow-hidden bg-brand-bg ${aspect}">
                             <img src="${escapeHtml(item.foto)}" alt="${escapeHtml(item.judul)}" class="h-full w-full object-cover object-top transition duration-300 group-hover:scale-105" loading="lazy">
-                            <span class="absolute left-2 top-2 rounded border-2 border-brand-header bg-kat-liputan px-1.5 py-0.5 text-[8px] font-bold uppercase text-white shadow-[2px_2px_0_#1E3A8A] sm:left-3 sm:top-3">
+                            <span class="absolute left-3 top-3 rounded bg-kat-liputan px-2 py-1 text-[10px] font-bold uppercase text-white">
                                 ${escapeHtml(item.kategori || 'Liputan')}
                             </span>
                         </div>

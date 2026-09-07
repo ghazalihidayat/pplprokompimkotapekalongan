@@ -90,6 +90,12 @@
             box-shadow: 8px 8px 0px #1E3A8A;
         }
 
+        /* Aksen garis diagonal terinspirasi papan clapperboard, ditempatkan
+           di atas kartu Ringkasan. Subtil dan memakai palet biru situs. */
+        .slate-stripe {
+            background-image: repeating-linear-gradient(-45deg, #1E3A8A 0 6px, #BFDBFE 6px 12px);
+        }
+
         /* Efek flip 3D pada kartu dokumentasi harian */
         .perspective-1000 { perspective: 1000px; }
         .preserve-3d { transform-style: preserve-3d; }
@@ -172,6 +178,7 @@
                 <span class="hero-line-2 highlight-bg mt-6 sm:mt-7 lg:mt-8 inline-block leading-normal">Menuju Ruang Protokol</span>
             </h1>
             <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_#1E3A8A] mt-4 max-w-2xl">
+                <div class="slate-stripe h-2 w-16 mb-3 rounded-full" aria-hidden="true"></div>
                 <h3 class="text-sm font-bold text-brand-accent mb-3 uppercase tracking-wide">Ringkasan</h3>
                 <p class="text-base sm:text-lg text-brand-sub leading-relaxed">
                     Selama satu bulan, empat mahasiswa Program Studi Komunikasi dan Penyiaran
@@ -354,9 +361,9 @@
                 if (semuaFoto.length > 0) buildInstans(semuaFoto);
             })
             .catch(() => buildInstans([
-                { foto: 'aset-artikel/sertijab-lapas.jpeg', judul: 'Liputan Kegiatan Prokompim' },
+                { foto: 'aset-artikel/dolan-paud.jpeg', judul: 'Liputan Kegiatan Prokompim' },
                 { foto: 'aset-artikel/tirakatan.jpeg', judul: 'Liputan Kegiatan Prokompim' },
-                { foto: 'aset-artikel/dolan-paud.jpeg', judul: 'Liputan Kegiatan Prokompim' }
+                { foto: 'aset-artikel/sertijab-lapas.jpeg', judul: 'Liputan Kegiatan Prokompim' }
             ]));
     });
 </script>
@@ -564,16 +571,16 @@
         </div>
 
         <div id="karya-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <a href="berita/sertijab-lapas.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/dolan-paud.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
-                    <img src="aset-artikel/sertijab-lapas.jpeg" alt="Serah terima jabatan Kepala Lapas Kelas IIA Kota Pekalongan" class="w-full h-full object-cover" loading="lazy">
+                    <img src="aset-artikel/dolan-paud.jpeg" alt="Kegiatan Dolan PAUD di KB Rainbow Preschool Setono" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
-                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Kalapas Baru Resmi Bertugas, Pemkot Pekalongan Perkuat Komitmen Kolaborasi</h4>
+                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Dolan PAUD Jadi Ruang Serap Aspirasi, Bunda PAUD Pekalongan Tekankan Peran Orang Tua</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
-                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Kamis, 27 Agustus 2026</span>
-                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Lapas Kelas IIA Kota Pekalongan</span>
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Jumat, 21 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>KB Rainbow Preschool, Setono</span>
                     </div>
                 </div>
             </a>
@@ -590,16 +597,16 @@
                     </div>
                 </div>
             </a>
-            <a href="berita/dolan-paud.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
+            <a href="berita/sertijab-lapas.html" class="card-neo flex flex-col h-full overflow-hidden hover:-translate-y-1 transition">
                 <div class="aspect-[4/3] bg-brand-bg relative overflow-hidden">
-                    <img src="aset-artikel/dolan-paud.jpeg" alt="Kegiatan Dolan PAUD di KB Rainbow Preschool Setono" class="w-full h-full object-cover" loading="lazy">
+                    <img src="aset-artikel/sertijab-lapas.jpeg" alt="Serah terima jabatan Kepala Lapas Kelas IIA Kota Pekalongan" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
                 <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
-                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Dolan PAUD Jadi Ruang Serap Aspirasi, Bunda PAUD Pekalongan Tekankan Peran Orang Tua</h4>
+                    <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Kalapas Baru Resmi Bertugas, Pemkot Pekalongan Perkuat Komitmen Kolaborasi</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
-                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Jumat, 21 Agustus 2026</span>
-                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>KB Rainbow Preschool, Setono</span>
+                        <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Kamis, 27 Agustus 2026</span>
+                        <span><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i>Lapas Kelas IIA Kota Pekalongan</span>
                     </div>
                 </div>
             </a>
@@ -747,7 +754,7 @@
     // tertulis di HTML tetap tampil sebagai fallback.
     (function () {
         const grid = document.getElementById('karya-grid');
-        const PILIHAN = ['sertijab-lapas.html', 'tirakatan-pengukuhan.html', 'dolan-paud.html'];
+        const PILIHAN = ['dolan-paud.html', 'tirakatan-pengukuhan.html', 'sertijab-lapas.html'];
 
         fetch('manifest.json')
             .then(res => res.ok ? res.json() : Promise.reject(res.status))
