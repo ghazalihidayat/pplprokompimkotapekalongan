@@ -183,14 +183,6 @@
                     Seluruh publikasi, liputan, dan karya yang dihasilkan selama pelaksanaan
                     PPL di Bagian Protokol dan Komunikasi Pimpinan Kota Pekalongan.
                 </p>
-                <p class="mt-2 max-w-xl text-xs leading-relaxed text-brand-sub/80 sm:text-sm">
-                    Angka pada kotak Wali Kota, Wakil Wali Kota, Ketua TP-PKK, dan Sekda
-                    menunjukkan jumlah kegiatan yang peliputannya turut melibatkan pihak
-                    tersebut, bukan jumlah publikasi yang eksklusif membahas satu pihak
-                    saja. Satu kegiatan dapat melibatkan lebih dari satu pihak sekaligus,
-                    sehingga jumlah keempat kotak tersebut tidak harus sama dengan Total
-                    Publikasi.
-                </p>
             </div>
 
             <!-- Ringkasan statistik: angka Wali Kota/Wawali/TP-PKK/Sekda dihitung manual
@@ -200,41 +192,50 @@
                  Susunan mobile 2-2-1: dipakai flex+wrap+justify-center (bukan grid) agar
                  kotak terakhir (Total) benar-benar center, bukan hanya menempel di bawah
                  salah satu kotak. -->
-            <div id="stats-grid" class="flex flex-wrap justify-center gap-3 sm:grid sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
+            <div>
+                <p class="mb-3 flex items-start gap-2 text-xs leading-relaxed text-brand-sub/70 sm:text-sm">
+                    <i class="fa-solid fa-circle-info mt-0.5 shrink-0 text-brand-accent"></i>
+                    <span>
+                        Angka pada tiap kategori menandai keterlibatan pihak dalam peliputan,
+                        sehingga satu kegiatan dapat tercatat pada lebih dari satu kategori.
+                    </span>
+                </p>
+                <div id="stats-grid" class="flex flex-wrap justify-center gap-3 sm:grid sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
                 <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-user-tie text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase tracking-wide text-brand-sub sm:text-xs">Kegiatan Wali Kota</p>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-user-tie mt-0.5 shrink-0 text-sm text-brand-accent"></i>
+                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wali Kota</p>
                     </div>
                     <p id="stat-walkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
                 <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-user-group text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase tracking-wide text-brand-sub sm:text-xs">Giat Wakil Wali Kota</p>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-user-group mt-0.5 shrink-0 text-sm text-brand-accent"></i>
+                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wakil Wali Kota</p>
                     </div>
                     <p id="stat-wawalkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
                 <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-users text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase tracking-wide text-brand-sub sm:text-xs">Giat Ketua TP-PKK</p>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-users mt-0.5 shrink-0 text-sm text-brand-accent"></i>
+                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Ketua TP-PKK</p>
                     </div>
                     <p id="stat-pkk" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
                 <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-user-check text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase tracking-wide text-brand-sub sm:text-xs">Giat Sekda</p>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-user-check mt-0.5 shrink-0 text-sm text-brand-accent"></i>
+                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Sekda</p>
                     </div>
                     <p id="stat-sekda" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                 </div>
                 <div class="card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-center gap-1 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-newspaper text-sm text-brand-accent"></i>
-                        <p class="text-[10px] font-bold uppercase tracking-wide text-brand-sub sm:text-xs">Total Publikasi</p>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-newspaper mt-0.5 shrink-0 text-sm text-brand-accent"></i>
+                        <p class="text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Total Publikasi</p>
                     </div>
                     <p id="stat-total" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
+                </div>
                 </div>
             </div>
         </div>
