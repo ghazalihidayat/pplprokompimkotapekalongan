@@ -29,19 +29,19 @@
     <!-- Penyesuaian gaya tambahan di luar utility class Tailwind -->
     <style>
         html, body { overflow-x: hidden; max-width: 100%; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F0F4F8; color: #1E293B; font-variant-numeric: tabular-nums lining-nums; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: rgb(var(--c-bg)); color: rgb(var(--c-text)); font-variant-numeric: tabular-nums lining-nums; transition: background-color 0.2s ease, color 0.2s ease; }
         h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
         img { max-width: 100%; height: auto; display: block; }
         .card-neo {
-            background-color: white;
-            border: 2px solid #1E3A8A;
+            background-color: rgb(var(--c-surface));
+            border: 2px solid rgb(var(--c-header));
             border-radius: 1rem;
-            box-shadow: 4px 4px 0px #1E3A8A;
+            box-shadow: 4px 4px 0px rgb(var(--c-header));
         }
         .card-neo-dark {
-            background-color: #1E3A8A;
+            background-color: rgb(var(--c-dark-fill));
             color: #EFF6FF;
-            border: 2px solid #1E3A8A;
+            border: 2px solid rgb(var(--c-dark-fill));
             border-radius: 1rem;
             box-shadow: 4px 4px 0px #0F172A;
         }
@@ -50,23 +50,23 @@
             align-items: center;
             justify-content: center;
             padding: 0.75rem 1.5rem;
-            background-color: #3B82F6;
+            background-color: rgb(var(--c-accent));
             color: white;
             font-weight: 600;
-            border: 2px solid #1E3A8A;
+            border: 2px solid rgb(var(--c-header));
             border-radius: 0.75rem;
-            box-shadow: 3px 3px 0px #1E3A8A;
+            box-shadow: 3px 3px 0px rgb(var(--c-header));
             cursor: pointer;
             transition: all 0.2s;
         }
-        .btn-neo:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0px #1E3A8A; }
+        .btn-neo:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0px rgb(var(--c-header)); }
         .btn-neo-dark {
-            background-color: #1E3A8A;
+            background-color: rgb(var(--c-dark-fill));
             color: white;
-            border-color: #1E3A8A;
+            border-color: rgb(var(--c-dark-fill));
         }
         .highlight-bg {
-            background-color: #3B82F6;
+            background-color: rgb(var(--c-accent));
             padding: 0.25rem 0.75rem;
             border-radius: 0.5rem;
             color: white;
@@ -80,18 +80,17 @@
             .hero-line-1 { text-shadow: 5px 5px 0 #BFDBFE, 6px 6px 0 #1E3A8A; }
         }
         .hero-line-2 {
-            border: 3px solid #1E3A8A;
-            box-shadow: 6px 6px 0px #1E3A8A;
+            border: 3px solid rgb(var(--c-header));
+            box-shadow: 6px 6px 0px rgb(var(--c-header));
             transform: rotate(-1.5deg);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .hero-line-2:hover {
             transform: rotate(0deg) translate(-2px, -2px);
-            box-shadow: 8px 8px 0px #1E3A8A;
+            box-shadow: 8px 8px 0px rgb(var(--c-header));
         }
 
-        /* Aksen garis diagonal terinspirasi papan clapperboard, ditempatkan
-           di atas kartu Ringkasan. Subtil dan memakai palet biru situs. */
+        /* Aksen diagonal ala clapperboard di atas kartu Ringkasan */
         .slate-stripe {
             background-image: repeating-linear-gradient(-45deg, #1E3A8A 0 6px, #BFDBFE 6px 12px);
         }
@@ -113,9 +112,7 @@
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Kartu dokumentasi harian: tinggi tetap per breakpoint, lebar
-           menyesuaikan rasio asli foto (dihitung via JS setelah dimuat).
-           Rasio 4/3 di bawah hanya nilai awal sebelum foto termuat. */
+        /* Kartu dokumentasi harian: tinggi tetap per breakpoint, lebar mengikuti rasio asli foto (dihitung via JS) */
         .kegiatan-card {
             height: 260px;
             flex-shrink: 0;
@@ -135,10 +132,10 @@
 
 <body class="antialiased selection:bg-brand-accent selection:text-white">
 <!-- Navigasi atas: logo situs, tautan antar-bagian, dan menu mobile -->
-<nav class="w-full bg-white/90 backdrop-blur-md border-b border-brand-div/50 sticky top-0 z-50">
+<nav class="w-full bg-brand-surface/90 backdrop-blur-md border-b border-brand-div/50 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         <div class="flex items-center gap-3 min-w-0">
-            <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-10 h-10 rounded-lg object-contain border border-brand-div/30 shadow-sm flex-shrink-0 bg-blue-50">
+            <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-10 h-10 rounded-lg object-contain border border-brand-div/30 shadow-sm flex-shrink-0 bg-blue-50" loading="eager">
             <span class="font-brand font-bold text-base sm:text-xl text-brand-header tracking-tight whitespace-nowrap truncate">PPL PROKOMPIM 2026</span>
         </div>
         <div class="hidden md:flex space-x-8 items-center">
@@ -148,36 +145,45 @@
             <a href="#tim" class="text-brand-header font-medium text-sm hover:text-brand-accent transition">Tim</a>
             <a href="galeri.html" class="text-brand-header font-medium text-sm hover:text-brand-accent transition">Dokumentasi</a>
         </div>
-        <div class="hidden md:block">
+        <div class="hidden md:flex items-center gap-3">
+            <button onclick="togglePplTheme()" aria-label="Ganti tampilan terang/gelap" class="inline-flex h-10 w-10 items-center justify-center rounded-lg border-2 border-brand-header text-brand-header transition hover:bg-brand-accent hover:text-white hover:border-brand-accent">
+                <i class="fa-solid fa-moon dark:hidden" aria-hidden="true"></i>
+                <i class="fa-solid fa-sun hidden dark:inline" aria-hidden="true"></i>
+            </button>
             <a href="#karya" class="btn-neo text-sm py-2 px-4">Jelajahi Karya Kami</a>
         </div>
         <button id="menu-btn" aria-label="Buka menu navigasi" aria-expanded="false" class="md:hidden text-brand-header text-2xl flex-shrink-0 ml-3">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-brand-div/50 px-6 py-4 space-y-4">
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-surface border-t border-brand-div/50 px-6 py-4 space-y-4">
         <a href="#tentang" class="block text-brand-header font-medium text-sm">Profil</a>
         <a href="#tugas" class="block text-brand-header font-medium text-sm">Ruang Lingkup</a>
         <a href="#kegiatan" class="block text-brand-header font-medium text-sm">Pengalaman</a>
         <a href="#tim" class="block text-brand-header font-medium text-sm">Tim</a>
         <a href="galeri.html" class="block text-brand-header font-medium text-sm">Dokumentasi</a>
+        <button onclick="togglePplTheme()" class="flex w-full items-center gap-2 text-brand-header font-medium text-sm">
+            <i class="fa-solid fa-moon dark:hidden" aria-hidden="true"></i>
+            <i class="fa-solid fa-sun hidden dark:inline" aria-hidden="true"></i>
+            Tampilan Gelap/Terang
+        </button>
         <a href="#karya" class="btn-neo text-sm py-2 px-4 w-full">Jelajahi Karya Kami</a>
     </div>
 </nav>
 
 <!-- Hero: judul utama, ringkasan singkat, dan carousel foto kegiatan terbaru -->
-<main class="py-10 lg:py-16 px-6 bg-white overflow-hidden">
+<main class="py-10 lg:py-16 px-6 bg-brand-surface overflow-hidden">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
         <!-- Area Teks Kiri (Mengambil 7 kolom dari 12 di layar besar) -->
         <div class="flex flex-col space-y-6 lg:col-span-7 relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-bg border-2 border-brand-header shadow-[3px_3px_0px_#1E3A8A] text-xs font-medium text-brand-header w-fit">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-bg border-2 border-brand-header shadow-[3px_3px_0px_rgb(var(--c-header))] text-xs font-medium text-brand-header w-fit">
                 <span class="w-2 h-2 rounded-full bg-blue-500"></span> 03 Agustus - 02 September 2026
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.2] text-brand-header py-2 break-words">
                 <span class="hero-line-1 inline-block">Dari Ruang Kelas</span><br>
                 <span class="hero-line-2 highlight-bg mt-6 sm:mt-7 lg:mt-8 inline-block leading-normal">Menuju Ruang Protokol</span>
             </h1>
-            <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_#1E3A8A] mt-4 max-w-2xl">
+            <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_rgb(var(--c-header))] mt-4 max-w-2xl">
                 <div class="slate-stripe h-2 w-16 mb-3 rounded-full" aria-hidden="true"></div>
                 <h3 class="text-sm font-bold text-brand-accent mb-3 uppercase tracking-wide">Ringkasan</h3>
                 <p class="text-base sm:text-lg text-brand-sub leading-relaxed">
@@ -375,7 +381,7 @@
             <span class="highlight-bg text-2xl font-bold px-3 py-1">01</span>
             <h2 class="text-3xl lg:text-4xl font-bold text-brand-header">Ringkasan</h2>
         </div>
-        <div class="card-neo p-6 lg:p-8 bg-white mb-8">
+        <div class="card-neo p-6 lg:p-8 bg-brand-surface mb-8">
             <h3 class="text-2xl font-bold mb-4 text-brand-header"><i class="fa-solid fa-graduation-cap text-brand-accent mr-2"></i>Program Studi</h3>
             <p class="text-brand-text leading-relaxed text-lg mb-3">
                 Program Studi Komunikasi dan Penyiaran Islam (KPI), Fakultas Ushuluddin,
@@ -393,7 +399,7 @@
             </p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div class="card-neo p-6 lg:p-8 md:col-span-2 bg-white flex flex-col justify-center">
+            <div class="card-neo p-6 lg:p-8 md:col-span-2 bg-brand-surface flex flex-col justify-center">
                 <h3 class="text-2xl font-bold mb-4 text-brand-header">Instansi Penempatan</h3>
                 <p class="text-brand-text leading-relaxed text-lg">
                     Pelaksanaan PPL berlangsung di Sekretariat Daerah<br> Bagian Protokol dan
@@ -418,7 +424,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-neo p-6 lg:p-8 bg-white">
+        <div class="card-neo p-6 lg:p-8 bg-brand-surface">
             <h3 class="text-xl font-bold mb-4 text-brand-header"><i class="fa-solid fa-circle-info text-brand-accent mr-2"></i>Mengenal Prokompim</h3>
             <p class="text-brand-text leading-relaxed">
                 Bagian Protokol dan Komunikasi Pimpinan (Prokompim) merupakan bagian di
@@ -435,7 +441,7 @@
 </section>
 
 <!-- Ruang Lingkup: aktivitas dan bidang yang dipelajari selama PPL -->
-    <section id="tugas" class="py-20 bg-white px-6">
+    <section id="tugas" class="py-20 bg-brand-surface px-6">
     <div class="max-w-7xl mx-auto">
         <div class="flex items-center gap-4 mb-12">
             <span class="highlight-bg text-2xl font-bold px-3 py-1">02</span>
@@ -482,7 +488,7 @@
             <h2 class="text-3xl lg:text-4xl font-bold text-brand-header">Pengalaman & Kompetensi</h2>
         </div>
         <div class="space-y-4">
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 bg-brand-surface flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">01.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Keprotokolan</h4>
@@ -492,7 +498,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 bg-brand-surface flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">02.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Komunikasi Profesional</h4>
@@ -502,7 +508,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 bg-brand-surface flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">03.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Jurnalistik & Publikasi</h4>
@@ -512,7 +518,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 bg-brand-surface flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">04.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Etika & Disiplin Kerja</h4>
@@ -522,7 +528,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 bg-brand-surface flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">05.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Karya & Portofolio</h4>
@@ -538,7 +544,7 @@
 </section>
 
 <!-- Karya & Portofolio: dokumentasi harian magang serta liputan kegiatan pimpinan -->
-    <section id="karya" class="py-20 bg-white px-6 overflow-hidden">
+    <section id="karya" class="py-20 bg-brand-surface px-6 overflow-hidden">
 
     <div class="max-w-7xl mx-auto flex items-center gap-4 mb-12">
         <span class="highlight-bg text-2xl font-bold px-3 py-1">04</span>
@@ -548,7 +554,7 @@
     <!-- Subbagian 1: dokumentasi harian magang. Kartu dirender secara dinamis dari kegiatan/data-kegiatan.json -->
     <div class="mb-20">
         <div class="max-w-7xl mx-auto px-2 mb-6">
-            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_#1E3A8A] mb-3">Dokumentasi Harian</span>
+            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_rgb(var(--c-header))] mb-3">Dokumentasi Harian</span>
             <h3 class="text-2xl sm:text-3xl font-bold text-brand-header">Dokumentasi Harian Selama Magang</h3>
         </div>
 
@@ -560,13 +566,10 @@
         </div>
     </div>
 
-    <!-- Subbagian 2: tiga liputan pilihan tim. Konten di bawah adalah fallback
-         statis yang tampil bila manifest.json gagal dimuat; dalam kondisi
-         normal, grid ini disinkronkan ulang via JS mengikuti PILIHAN di
-         script bawah (urutan dan sumber data tetap konsisten). -->
+    <!-- Subbagian 2: liputan pilihan tim; fallback statis jika manifest.json gagal dimuat -->
     <div class="max-w-7xl mx-auto">
         <div class="px-2 mb-6">
-            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_#1E3A8A] mb-3">Publikasi Media</span>
+            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_rgb(var(--c-header))] mb-3">Publikasi Media</span>
             <h3 class="text-2xl sm:text-3xl font-bold text-brand-header">Liputan Kegiatan Pimpinan</h3>
         </div>
 
@@ -576,7 +579,7 @@
                     <img src="aset-artikel/dolan-paud.jpeg" alt="Kegiatan Dolan PAUD di KB Rainbow Preschool Setono" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Dolan PAUD Jadi Ruang Serap Aspirasi, Bunda PAUD Pekalongan Tekankan Peran Orang Tua</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Jumat, 21 Agustus 2026</span>
@@ -589,7 +592,7 @@
                     <img src="aset-artikel/tirakatan.jpeg" alt="Pengukuhan Paskibraka Kota Pekalongan 2026" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Paskibraka Kota Pekalongan 2026 Dikukuhkan, Jelang Tugas Pengibaran Merah Putih</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Sabtu, 15 Agustus 2026</span>
@@ -602,7 +605,7 @@
                     <img src="aset-artikel/sertijab-lapas.jpeg" alt="Serah terima jabatan Kepala Lapas Kelas IIA Kota Pekalongan" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Kalapas Baru Resmi Bertugas, Pemkot Pekalongan Perkuat Komitmen Kolaborasi</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Kamis, 27 Agustus 2026</span>
@@ -646,13 +649,13 @@
         track.innerHTML = data.map(item => `
             <div class="snap-start kegiatan-card perspective-1000 group">
                 <div class="flip-inner w-full h-full relative preserve-3d cursor-pointer" onclick="flipCard(this)">
-                    <div class="absolute inset-0 backface-hidden card-neo p-2 bg-white flex flex-col">
-                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-slate-100">
+                    <div class="absolute inset-0 backface-hidden card-neo p-2 bg-brand-surface flex flex-col">
+                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-brand-surface">
                             <span class="absolute top-3 left-3 bg-brand-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm z-10 pointer-events-none">Kegiatan Magang</span>
                             <img src="${item.foto}" alt="${item.alt}" class="w-full h-full object-cover" loading="lazy" onload="adjustCardOrientation(this)">
                         </div>
                     </div>
-                    <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo bg-white border-2 border-brand-header p-3 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center overflow-y-auto hide-scrollbar">
+                    <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo bg-brand-surface border-2 border-brand-header p-3 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center overflow-y-auto hide-scrollbar">
                         <div class="w-8 sm:w-10 md:w-12 h-1 sm:h-1.5 bg-brand-accent mb-2 sm:mb-3 md:mb-5 rounded-full shrink-0"></div>
                         <h4 class="font-bold text-brand-header text-xs sm:text-sm md:text-lg lg:text-xl mb-1.5 sm:mb-2 md:mb-3 leading-snug max-w-[92%] mx-auto">${item.judul}</h4>
                         <p class="text-[10px] sm:text-xs md:text-sm text-brand-text leading-relaxed max-w-[92%] mx-auto">${item.deskripsi}</p>
@@ -736,7 +739,7 @@
                     <img src="${escapeHtml(item.foto)}" alt="${escapeHtml(item.judul)}" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">${escapeHtml(item.kategori || 'Liputan Kegiatan')}</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">${escapeHtml(item.judul)}</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>${formatTanggalIndo(item.tanggal)}</span>
@@ -747,11 +750,7 @@
         `;
     }
 
-    // Liputan pilihan tim ditampilkan sesuai urutan tetap berikut. Bila salah
-    // satu berkas manifest tidak ditemukan (misal artikel dipindah/dihapus),
-    // slot tersebut otomatis diisi liputan terbaru lain sebagai gantinya.
-    // Bila manifest.json sendiri gagal dimuat, tiga kartu statis yang sudah
-    // tertulis di HTML tetap tampil sebagai fallback.
+    // Liputan pilihan tampil sesuai urutan PILIHAN; slot kosong (artikel pindah/hapus) otomatis diisi liputan terbaru lain, dan kartu statis di HTML tetap jadi fallback bila manifest.json gagal dimuat.
     (function () {
         const grid = document.getElementById('karya-grid');
         const PILIHAN = ['dolan-paud.html', 'tirakatan-pengukuhan.html', 'sertijab-lapas.html'];
@@ -788,7 +787,7 @@
         <span class="highlight-bg text-xl font-bold px-3 py-1 mb-4 inline-block">05</span>
         <h2 class="text-3xl lg:text-4xl font-bold text-brand-header mb-12">Tim PPL Prokompim</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6 bg-brand-surface">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Ghazali.jpeg" alt="Foto Mazda Ghazali Hidayat" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -797,7 +796,7 @@
                     NIM: 30423003
                 </p>
             </div>
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6 bg-brand-surface">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Nabila.jpeg" alt="Foto Nabilla R. Citra Anggraeny" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -806,7 +805,7 @@
                     NIM: 30423011
                 </p>
             </div>
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6 bg-brand-surface">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Fara.jpeg" alt="Foto Fara Azahra" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -815,7 +814,7 @@
                     NIM: 30423081
                 </p>
             </div>
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6 bg-brand-surface">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Intan.jpeg" alt="Foto Intan Fatmah Farkhati" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -833,7 +832,7 @@
     <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start gap-8 border-b border-brand-div/30 pb-8 mb-8">
         <div class="w-full md:w-1/2">
             <div class="flex items-center gap-3 mb-4">
-                <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-8 h-8 rounded-md object-cover">
+                <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-8 h-8 rounded-md object-cover" loading="lazy">
                 <span class="font-brand font-bold text-xl text-white">PPL PROKOMPIM 2026</span>
             </div>
             <p class="text-brand-div text-sm max-w-sm">
