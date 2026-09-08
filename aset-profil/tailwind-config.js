@@ -1,7 +1,4 @@
 // Konfigurasi warna dan tipografi Tailwind bersama untuk seluruh halaman situs.
-// Sebelumnya blok ini diduplikasi secara identik di setiap file (index, galeri,
-// dan 20+ halaman berita). Disatukan di sini agar situs mudah dirawat: ubah
-// satu warna di sini, seluruh halaman ikut konsisten.
 tailwind.config = {
     theme: {
         extend: {
