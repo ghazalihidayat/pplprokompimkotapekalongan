@@ -1,6 +1,4 @@
-/* Gaya bersama untuk seluruh halaman berita (/berita/*.html).
-   Sebelumnya blok <style> ini diduplikasi identik di setiap halaman berita;
-   kini disatukan di satu berkas agar kode setiap artikel lebih ringkas. */
+/* Gaya bersama untuk seluruh halaman berita */
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
@@ -10,8 +8,7 @@ body {
     margin-bottom: 1.5rem;
 }
 
-/* Kotak kutipan narasumber: garis biru di sisi kiri + latar abu-abu,
-   tanpa ikon tanda kutip dekoratif (dihapus sesuai revisi). */
+/* Kotak kutipan narasumber */
 .quote-block {
     position: relative;
     border-radius: 0 0.75rem 0.75rem 0;
