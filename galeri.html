@@ -103,6 +103,14 @@
         @media (min-width: 640px) {
             .stat-card { min-height: 108px; }
         }
+
+        /* Focus state konsisten untuk navigasi keyboard, memakai warna brand yang sama */
+        a:focus-visible,
+        button:focus-visible {
+            outline: 2px solid #1E3A8A;
+            outline-offset: 2px;
+            border-radius: 0.25rem;
+        }
     </style>
 </head>
 <body class="antialiased selection:bg-brand-accent selection:text-white">
@@ -202,35 +210,35 @@
                 </p>
                 <div id="stats-grid" class="flex flex-wrap justify-center gap-3 sm:grid sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
                 <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wali Kota</p>
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-normal text-brand-sub sm:text-xs">Kegiatan Wali&nbsp;Kota</p>
                     <div class="flex items-end justify-between gap-2">
                         <i class="fa-solid fa-user-tie shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
                         <p id="stat-walkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
                 </div>
                 <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Wakil Wali Kota</p>
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-normal text-brand-sub sm:text-xs">Kegiatan Wakil Wali&nbsp;Kota</p>
                     <div class="flex items-end justify-between gap-2">
                         <i class="fa-solid fa-user-group shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
                         <p id="stat-wawalkot" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
                 </div>
                 <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Ketua TP-PKK</p>
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-normal text-brand-sub sm:text-xs">Kegiatan Ketua TP-PKK</p>
                     <div class="flex items-end justify-between gap-2">
-                        <i class="fa-solid fa-people-roof shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <i class="fa-solid fa-hand-holding-heart shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
                         <p id="stat-pkk" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
                 </div>
                 <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Kegiatan Sekda</p>
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-normal text-brand-sub sm:text-xs">Kegiatan Sekda</p>
                     <div class="flex items-end justify-between gap-2">
-                        <i class="fa-solid fa-building-columns shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
+                        <i class="fa-solid fa-file-signature shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
                         <p id="stat-sekda" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
                     </div>
                 </div>
                 <div class="stat-card card-neo flex w-[calc(50%-0.375rem)] flex-none flex-col justify-between gap-3 bg-white px-4 py-4 transition hover:-translate-y-1 active:translate-y-0 sm:w-auto sm:px-5">
-                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-wide text-brand-sub sm:text-xs">Total Publikasi</p>
+                    <p class="[text-wrap:balance] text-[10px] font-bold uppercase leading-snug tracking-normal text-brand-sub sm:text-xs">Total Publikasi</p>
                     <div class="flex items-end justify-between gap-2">
                         <i class="fa-solid fa-newspaper shrink-0 text-base text-brand-accent sm:text-lg" aria-hidden="true"></i>
                         <p id="stat-total" class="text-2xl font-extrabold leading-none text-brand-header sm:text-3xl">–</p>
