@@ -1,5 +1,25 @@
 /* Gaya bersama untuk seluruh halaman berita */
 
+/* Token warna tema (channel RGB, dipakai Tailwind + CSS kustom); ditimpa saat <html> berkelas .dark */
+:root {
+    --c-bg: 240 244 248;
+    --c-surface: 255 255 255;
+    --c-dark: 30 58 138;
+    --c-header: 30 58 138;
+    --c-text: 30 41 59;
+    --c-sub: 71 85 105;
+    --c-div: 147 197 253;
+    --c-accent: 59 130 246;
+}
+.dark {
+    --c-bg: 7 11 20;
+    --c-surface: 17 28 52;
+    --c-dark: 11 18 32;
+    --c-header: 96 165 250;
+    --c-text: 226 232 240;
+    --c-sub: 148 163 184;
+}
+
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
 }
@@ -12,4 +32,23 @@ body {
 .quote-block {
     position: relative;
     border-radius: 0 0.75rem 0.75rem 0;
+}
+
+/* Tombol ikon bulat (dipakai untuk toggle tema) */
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    border: 2px solid rgb(var(--c-header));
+    background: rgb(var(--c-surface));
+    color: rgb(var(--c-header));
+    box-shadow: 2px 2px 0 rgb(var(--c-header));
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.icon-btn:hover {
+    transform: translate(1px, 1px);
+    box-shadow: 1px 1px 0 rgb(var(--c-header));
 }

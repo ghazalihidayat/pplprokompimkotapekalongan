@@ -1,16 +1,20 @@
 // Konfigurasi warna dan tipografi Tailwind bersama untuk seluruh halaman situs.
+// Warna dipetakan ke CSS custom property (format channel RGB) agar tema gelap
+// otomatis mengikuti dan modifier opacity (mis. bg-brand-div/50) tetap berfungsi.
 tailwind.config = {
+    darkMode: 'class',
     theme: {
         extend: {
             colors: {
-                'brand-bg': '#F0F4F8',
-                'brand-sub': '#475569',
-                'brand-div': '#93C5FD',
-                'brand-header': '#1E3A8A',
-                'brand-text': '#1E293B',
-                'brand-dark': '#1E3A8A',
-                'brand-accent': '#3B82F6',
-                'kat-liputan': '#3B82F6',
+                'brand-bg': 'rgb(var(--c-bg) / <alpha-value>)',
+                'brand-surface': 'rgb(var(--c-surface) / <alpha-value>)',
+                'brand-sub': 'rgb(var(--c-sub) / <alpha-value>)',
+                'brand-div': 'rgb(var(--c-div) / <alpha-value>)',
+                'brand-header': 'rgb(var(--c-header) / <alpha-value>)',
+                'brand-text': 'rgb(var(--c-text) / <alpha-value>)',
+                'brand-dark': 'rgb(var(--c-dark) / <alpha-value>)',
+                'brand-accent': 'rgb(var(--c-accent) / <alpha-value>)',
+                'kat-liputan': 'rgb(var(--c-accent) / <alpha-value>)',
                 'kat-jurnal': '#0D9488',
             },
             fontFamily: {
