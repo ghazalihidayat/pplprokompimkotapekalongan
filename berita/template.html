@@ -27,11 +27,13 @@
 
     <!-- Konfigurasi warna, tipografi, dan gaya tambahan (berkas bersama) -->
     <script src="../aset-profil/tailwind-config.js"></script>
+    <!-- Terapkan tema sebelum render agar tidak flicker -->
+    <script>document.documentElement.classList.toggle('dark', localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches));</script>
     <link rel="stylesheet" href="../aset-profil/berita.css">
 </head>
 <body class="bg-brand-bg text-brand-text antialiased">
     <!-- Navigasi atas: logo situs dan tautan kembali ke beranda -->
-    <nav class="sticky top-0 z-50 border-b border-brand-div/50 bg-brand-surface/90 backdrop-blur-md">
+    <nav class="sticky top-0 z-50 border-b border-brand-div/50 bg-brand-surface">
         <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
             <a href="../index.html" class="flex min-w-0 items-center gap-3">
                 <img src="../aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="h-10 w-10 flex-shrink-0 rounded-lg border border-brand-div/30 bg-blue-50 object-contain shadow-sm" loading="eager">
@@ -43,6 +45,9 @@
                 <i class="fa-solid fa-arrow-left mr-1"></i>
                 Kembali
             </a>
+            <button type="button" data-theme-toggle aria-label="Ganti tema gelap/terang" class="icon-btn ml-3 flex-shrink-0">
+                <i class="fa-solid fa-moon text-sm"></i>
+            </button>
         </div>
     </nav>
 
@@ -105,9 +110,7 @@
             </div>
 
             <!-- Kredit tim: penulis, editor, dan tim liputan berita -->
-            <!-- Panduan: hapus baris <li> yang datanya tidak ada (tanda "-" di data sumber).
-                 Kolom nilai memakai CSS grid, jadi nama yang panjang akan otomatis turun ke
-                 baris baru namun tetap sejajar rapi di bawah tanda titik dua. -->
+            <!-- Hapus <li> yang datanya kosong -->
             <div class="mt-8 rounded-2xl border border-brand-div/50 bg-brand-bg/80 p-6 text-sm">
                 <h3 class="mb-4 flex items-center font-bold text-brand-accent sm:text-base">
                     <div class="mr-2.5 flex h-8 w-8 items-center justify-center rounded-lg bg-brand-accent text-white">
@@ -181,5 +184,6 @@
             </p>
         </div>
     </footer>
+    <script src="../aset-profil/theme.js"></script>
 </body>
 </html>
