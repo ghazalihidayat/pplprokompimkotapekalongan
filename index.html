@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
-    <!-- Metadata dasar: encoding, judul, dan deskripsi halaman untuk SEO -->
+    <!-- Metadata SEO dasar -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PPL KPI Prokompim Kota Pekalongan | Portofolio</title>
@@ -25,48 +25,70 @@
 
     <!-- Konfigurasi tema Tailwind bersama (dipakai seluruh halaman situs) -->
     <script src="aset-profil/tailwind-config.js"></script>
+    <!-- Terapkan tema sebelum render agar tidak flicker -->
+    <script>document.documentElement.classList.toggle('dark', localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches));</script>
 
-    <!-- Penyesuaian gaya tambahan di luar utility class Tailwind -->
     <style>
         html, body { overflow-x: hidden; max-width: 100%; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F0F4F8; color: #1E293B; font-variant-numeric: tabular-nums lining-nums; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: rgb(var(--c-bg)); color: rgb(var(--c-text)); font-variant-numeric: tabular-nums lining-nums; }
         h1, h2, h3, h4 { font-family: 'Plus Jakarta Sans', sans-serif; }
         img { max-width: 100%; height: auto; display: block; }
+
+        /* Token warna tema; ditimpa saat <html> berkelas .dark */
+        :root {
+            --c-bg: 240 244 248;
+            --c-surface: 255 255 255;
+            --c-dark: 30 58 138;
+            --c-header: 30 58 138;
+            --c-text: 30 41 59;
+            --c-sub: 71 85 105;
+            --c-div: 147 197 253;
+            --c-accent: 59 130 246;
+        }
+        .dark {
+            --c-bg: 7 11 20;
+            --c-surface: 17 28 52;
+            --c-dark: 11 18 32;
+            --c-header: 96 165 250;
+            --c-text: 226 232 240;
+            --c-sub: 148 163 184;
+        }
+
         .card-neo {
-            background-color: white;
-            border: 2px solid #1E3A8A;
+            background-color: rgb(var(--c-surface));
+            border: 2px solid rgb(var(--c-header));
             border-radius: 1rem;
-            box-shadow: 4px 4px 0px #1E3A8A;
+            box-shadow: 4px 4px 0px rgb(var(--c-header));
         }
         .card-neo-dark {
-            background-color: #1E3A8A;
+            background-color: rgb(var(--c-dark));
             color: #EFF6FF;
-            border: 2px solid #1E3A8A;
+            border: 2px solid rgb(var(--c-header));
             border-radius: 1rem;
-            box-shadow: 4px 4px 0px #0F172A;
+            box-shadow: 4px 4px 0px rgb(var(--c-header));
         }
         .btn-neo {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0.75rem 1.5rem;
-            background-color: #3B82F6;
+            background-color: rgb(var(--c-accent));
             color: white;
             font-weight: 600;
-            border: 2px solid #1E3A8A;
+            border: 2px solid rgb(var(--c-header));
             border-radius: 0.75rem;
-            box-shadow: 3px 3px 0px #1E3A8A;
+            box-shadow: 3px 3px 0px rgb(var(--c-header));
             cursor: pointer;
             transition: all 0.2s;
         }
-        .btn-neo:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0px #1E3A8A; }
+        .btn-neo:hover { transform: translate(2px, 2px); box-shadow: 1px 1px 0px rgb(var(--c-header)); }
         .btn-neo-dark {
-            background-color: #1E3A8A;
+            background-color: rgb(var(--c-dark));
             color: white;
-            border-color: #1E3A8A;
+            border-color: rgb(var(--c-header));
         }
         .highlight-bg {
-            background-color: #3B82F6;
+            background-color: rgb(var(--c-accent));
             padding: 0.25rem 0.75rem;
             border-radius: 0.5rem;
             color: white;
@@ -74,76 +96,61 @@
 
         /* Aksen neobrutalism pada judul hero: stacked shadow + stiker miring */
         .hero-line-1 {
-            text-shadow: 3px 3px 0 #BFDBFE, 4px 4px 0 #1E3A8A;
+            text-shadow: 3px 3px 0 rgb(var(--c-div)), 4px 4px 0 rgb(var(--c-header));
         }
         @media (min-width: 640px) {
-            .hero-line-1 { text-shadow: 5px 5px 0 #BFDBFE, 6px 6px 0 #1E3A8A; }
+            .hero-line-1 { text-shadow: 5px 5px 0 rgb(var(--c-div)), 6px 6px 0 rgb(var(--c-header)); }
         }
         .hero-line-2 {
-            border: 3px solid #1E3A8A;
-            box-shadow: 6px 6px 0px #1E3A8A;
+            border: 3px solid rgb(var(--c-header));
+            box-shadow: 6px 6px 0px rgb(var(--c-header));
             transform: rotate(-1.5deg);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .hero-line-2:hover {
             transform: rotate(0deg) translate(-2px, -2px);
-            box-shadow: 8px 8px 0px #1E3A8A;
+            box-shadow: 8px 8px 0px rgb(var(--c-header));
         }
 
-        /* Aksen garis diagonal terinspirasi papan clapperboard, ditempatkan
-           di atas kartu Ringkasan. Subtil dan memakai palet biru situs. */
-        .slate-stripe {
-            background-image: repeating-linear-gradient(-45deg, #1E3A8A 0 6px, #BFDBFE 6px 12px);
-        }
-
-        /* Efek flip 3D pada kartu dokumentasi harian */
+        /* Efek flip 3D kartu dokumentasi harian */
         .perspective-1000 { perspective: 1000px; }
         .preserve-3d { transform-style: preserve-3d; }
         .backface-hidden { backface-visibility: hidden; }
         .rotate-y-180 { transform: rotateY(180deg); }
-
-        .flip-inner {
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .flip-inner.is-flipped {
-            transform: rotateY(180deg);
-        }
+        .flip-inner { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .flip-inner.is-flipped { transform: rotateY(180deg); }
 
         /* Scrollbar carousel disembunyikan; navigasi tetap via drag/swipe */
         .hide-scrollbar::-webkit-scrollbar { display: none; }
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Kartu dokumentasi harian: tinggi tetap per breakpoint, lebar
-           menyesuaikan rasio asli foto (dihitung via JS setelah dimuat).
-           Rasio 4/3 di bawah hanya nilai awal sebelum foto termuat. */
-        .kegiatan-card {
-            height: 260px;
-            flex-shrink: 0;
-            aspect-ratio: 4 / 3;
-        }
-        @media (min-width: 640px) {
-            .kegiatan-card { height: 300px; }
-        }
-        @media (min-width: 768px) {
-            .kegiatan-card { height: 340px; }
-        }
-        @media (min-width: 1024px) {
-            .kegiatan-card { height: 380px; }
-        }
+        /* Kartu dokumentasi harian: tinggi tetap, lebar mengikuti rasio foto asli via JS */
+        .kegiatan-card { height: 260px; flex-shrink: 0; aspect-ratio: 4 / 3; }
+        @media (min-width: 640px) { .kegiatan-card { height: 300px; } }
+        @media (min-width: 768px) { .kegiatan-card { height: 340px; } }
+        @media (min-width: 1024px) { .kegiatan-card { height: 380px; } }
 
-        /* Focus state konsisten untuk navigasi keyboard, memakai warna brand yang sama */
-        a:focus-visible,
-        button:focus-visible {
-            outline: 2px solid #1E3A8A;
+        /* Tombol ikon bulat (toggle tema) */
+        .icon-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 2.25rem; height: 2.25rem; border-radius: 0.5rem;
+            border: 2px solid rgb(var(--c-header)); background: rgb(var(--c-surface)); color: rgb(var(--c-header));
+            box-shadow: 2px 2px 0 rgb(var(--c-header)); transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .icon-btn:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 rgb(var(--c-header)); }
+
+        /* Focus state konsisten untuk navigasi keyboard */
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid rgb(var(--c-header));
             outline-offset: 2px;
             border-radius: 0.25rem;
         }
     </style>
 </head>
 
-<body class="antialiased selection:bg-brand-accent selection:text-white">
+<body class="bg-brand-bg text-brand-text antialiased selection:bg-brand-accent selection:text-white">
 <!-- Navigasi atas: logo situs, tautan antar-bagian, dan menu mobile -->
-<nav class="w-full bg-white/90 backdrop-blur-md border-b border-brand-div/50 sticky top-0 z-50">
+<nav class="w-full bg-brand-surface border-b border-brand-div/50 sticky top-0 z-50">
     <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
         <div class="flex items-center gap-3 min-w-0">
             <img src="aset-profil/Logo-PPL.svg" alt="Logo PPL KPI" class="w-10 h-10 rounded-lg object-contain border border-brand-div/30 shadow-sm flex-shrink-0 bg-blue-50">
@@ -156,38 +163,43 @@
             <a href="#tim" class="text-brand-header font-medium text-sm hover:text-brand-accent transition">Tim</a>
             <a href="galeri.html" class="text-brand-header font-medium text-sm hover:text-brand-accent transition">Dokumentasi</a>
         </div>
-        <div class="hidden md:block">
+        <div class="hidden md:flex items-center gap-3">
             <a href="#karya" class="btn-neo text-sm py-2 px-4">Jelajahi Karya Kami</a>
+            <button type="button" data-theme-toggle aria-label="Ganti tema gelap/terang" class="icon-btn flex-shrink-0">
+                <i class="fa-solid fa-moon text-sm"></i>
+            </button>
         </div>
         <button id="menu-btn" aria-label="Buka menu navigasi" aria-expanded="false" class="md:hidden text-brand-header text-2xl flex-shrink-0 ml-3">
             <i class="fa-solid fa-bars"></i>
         </button>
     </div>
-    <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-brand-div/50 px-6 py-4 space-y-4">
+    <div id="mobile-menu" class="hidden md:hidden bg-brand-surface border-t border-brand-div/50 px-6 py-4 space-y-4">
         <a href="#tentang" class="block text-brand-header font-medium text-sm">Profil</a>
         <a href="#tugas" class="block text-brand-header font-medium text-sm">Ruang Lingkup</a>
         <a href="#kegiatan" class="block text-brand-header font-medium text-sm">Pengalaman</a>
         <a href="#tim" class="block text-brand-header font-medium text-sm">Tim</a>
         <a href="galeri.html" class="block text-brand-header font-medium text-sm">Dokumentasi</a>
         <a href="#karya" class="btn-neo text-sm py-2 px-4 w-full">Jelajahi Karya Kami</a>
+        <button type="button" data-theme-toggle aria-label="Ganti tema gelap/terang" class="icon-btn">
+            <i class="fa-solid fa-moon text-sm"></i>
+        </button>
     </div>
 </nav>
 
 <!-- Hero: judul utama, ringkasan singkat, dan carousel foto kegiatan terbaru -->
-<main class="py-10 lg:py-16 px-6 bg-white overflow-hidden">
+<main class="py-10 lg:py-16 px-6 bg-brand-surface overflow-hidden">
     <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-        <!-- Area Teks Kiri (Mengambil 7 kolom dari 12 di layar besar) -->
+        <!-- Area teks kiri -->
         <div class="flex flex-col space-y-6 lg:col-span-7 relative z-10">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-bg border-2 border-brand-header shadow-[3px_3px_0px_#1E3A8A] text-xs font-medium text-brand-header w-fit">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-bg border-2 border-brand-header shadow-[3px_3px_0px_rgb(var(--c-header))] text-xs font-medium text-brand-header w-fit">
                 <span class="w-2 h-2 rounded-full bg-blue-500"></span> 03 Agustus - 02 September 2026
             </div>
             <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.2] text-brand-header py-2 break-words">
                 <span class="hero-line-1 inline-block">Dari Ruang Kelas</span><br>
                 <span class="hero-line-2 highlight-bg mt-6 sm:mt-7 lg:mt-8 inline-block leading-normal">Menuju Ruang Protokol</span>
             </h1>
-            <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_#1E3A8A] mt-4 max-w-2xl">
-                <div class="slate-stripe h-2 w-16 mb-3 rounded-full" aria-hidden="true"></div>
-                <p class="text-sm font-bold text-brand-accent mb-3 uppercase tracking-wide">Ringkasan</p>
+            <div class="bg-brand-bg/50 p-6 rounded-2xl border-2 border-brand-header shadow-[6px_6px_0px_rgb(var(--c-header))] mt-4 max-w-2xl">
+                <p class="text-base font-extrabold text-brand-accent mb-3 uppercase tracking-widest">Ringkasan</p>
                 <p class="text-base sm:text-lg text-brand-sub leading-relaxed">
                     Selama satu bulan, empat mahasiswa Program Studi Komunikasi dan Penyiaran
                     Islam UIN K.H. Abdurrahman Wahid Pekalongan menjalani Praktik Pengalaman
@@ -205,7 +217,6 @@
         <!-- Carousel foto kegiatan terbaru: sumber data dari manifest.json -->
         <div class="flex justify-center items-center lg:col-span-5 relative w-full h-[450px] sm:h-[500px] lg:h-[600px] mt-10 lg:mt-0" aria-hidden="true">
             <div class="instans-wrapper w-full max-w-[320px] sm:max-w-[380px] lg:max-w-[420px] aspect-square" id="instansWrapper">
-                <!-- Teks tampil sementara sebelum data foto selesai dimuat -->
                 <div class="text-brand-div font-medium animate-pulse absolute inset-0 flex items-center justify-center">Memuat Momen...</div>
             </div>
         </div>
@@ -360,8 +371,7 @@
             });
         }
         
-        // Seluruh foto liputan dari manifest.json ditampilkan di carousel.
-        // Jika manifest gagal dimuat, tiga foto tetap dipakai sebagai fallback.
+        // Foto carousel dari manifest.json; fallback ke tiga foto statis jika gagal dimuat.
         fetch('manifest.json')
             .then(res => res.ok ? res.json() : Promise.reject(res.status))
             .then(data => {
@@ -383,7 +393,7 @@
             <span class="highlight-bg text-2xl font-bold px-3 py-1">01</span>
             <h2 class="text-3xl lg:text-4xl font-bold text-brand-header">Ringkasan</h2>
         </div>
-        <div class="card-neo p-6 lg:p-8 bg-white mb-8">
+        <div class="card-neo p-6 lg:p-8 mb-8">
             <h3 class="text-2xl font-bold mb-4 text-brand-header"><i class="fa-solid fa-graduation-cap text-brand-accent mr-2"></i>Program Studi</h3>
             <p class="text-brand-text leading-relaxed text-lg mb-3">
                 Program Studi Komunikasi dan Penyiaran Islam (KPI), Fakultas Ushuluddin,
@@ -401,7 +411,7 @@
             </p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-            <div class="card-neo p-6 lg:p-8 md:col-span-2 bg-white flex flex-col justify-center">
+            <div class="card-neo p-6 lg:p-8 md:col-span-2 flex flex-col justify-center">
                 <h3 class="text-2xl font-bold mb-4 text-brand-header">Instansi Penempatan</h3>
                 <p class="text-brand-text leading-relaxed text-lg">
                     Pelaksanaan PPL berlangsung di Sekretariat Daerah<br> Bagian Protokol dan
@@ -426,7 +436,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-neo p-6 lg:p-8 bg-white">
+        <div class="card-neo p-6 lg:p-8">
             <h3 class="text-xl font-bold mb-4 text-brand-header"><i class="fa-solid fa-circle-info text-brand-accent mr-2"></i>Mengenal Prokompim</h3>
             <p class="text-brand-text leading-relaxed">
                 Bagian Protokol dan Komunikasi Pimpinan (Prokompim) merupakan bagian di
@@ -443,7 +453,7 @@
 </section>
 
 <!-- Ruang Lingkup: aktivitas dan bidang yang dipelajari selama PPL -->
-    <section id="tugas" class="py-20 bg-white px-6">
+    <section id="tugas" class="py-20 bg-brand-surface px-6">
     <div class="max-w-7xl mx-auto">
         <div class="flex items-center gap-4 mb-12">
             <span class="highlight-bg text-2xl font-bold px-3 py-1">02</span>
@@ -490,7 +500,7 @@
             <h2 class="text-3xl lg:text-4xl font-bold text-brand-header">Pengalaman & Kompetensi</h2>
         </div>
         <div class="space-y-4">
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">01.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Keprotokolan</h4>
@@ -500,7 +510,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">02.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Komunikasi Profesional</h4>
@@ -510,7 +520,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">03.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Jurnalistik & Publikasi</h4>
@@ -520,7 +530,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">04.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Etika & Disiplin Kerja</h4>
@@ -530,7 +540,7 @@
                     </p>
                 </div>
             </div>
-            <div class="card-neo p-5 bg-white flex items-start gap-4">
+            <div class="card-neo p-5 flex items-start gap-4">
                 <div class="mt-1 font-bold text-brand-accent text-lg">05.</div>
                 <div>
                     <h4 class="font-bold text-brand-header mb-1">Karya & Portofolio</h4>
@@ -546,7 +556,7 @@
 </section>
 
 <!-- Karya & Portofolio: dokumentasi harian magang serta liputan kegiatan pimpinan -->
-    <section id="karya" class="py-20 bg-white px-6 overflow-hidden">
+    <section id="karya" class="py-20 bg-brand-surface px-6 overflow-hidden">
 
     <div class="max-w-7xl mx-auto flex items-center gap-4 mb-12">
         <span class="highlight-bg text-2xl font-bold px-3 py-1">04</span>
@@ -556,7 +566,7 @@
     <!-- Subbagian 1: dokumentasi harian magang. Kartu dirender secara dinamis dari kegiatan/data-kegiatan.json -->
     <div class="mb-20">
         <div class="max-w-7xl mx-auto px-2 mb-6">
-            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_#1E3A8A] mb-3">Dokumentasi Harian</span>
+            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_rgb(var(--c-header))] mb-3">Dokumentasi Harian</span>
             <h3 class="text-2xl sm:text-3xl font-bold text-brand-header">Dokumentasi Harian Selama Magang</h3>
         </div>
 
@@ -574,7 +584,7 @@
          script bawah (urutan dan sumber data tetap konsisten). -->
     <div class="max-w-7xl mx-auto">
         <div class="px-2 mb-6">
-            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_#1E3A8A] mb-3">Publikasi Media</span>
+            <span class="inline-block bg-brand-accent text-white text-xs font-bold uppercase px-3 py-1.5 rounded border-2 border-brand-header shadow-[2px_2px_0px_rgb(var(--c-header))] mb-3">Publikasi Media</span>
             <h3 class="text-2xl sm:text-3xl font-bold text-brand-header">Liputan Kegiatan Pimpinan</h3>
         </div>
 
@@ -584,7 +594,7 @@
                     <img src="aset-artikel/dolan-paud.jpeg" alt="Kegiatan Dolan PAUD di KB Rainbow Preschool Setono" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Dolan PAUD Jadi Ruang Serap Aspirasi, Bunda PAUD Pekalongan Tekankan Peran Orang Tua</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Jumat, 21 Agustus 2026</span>
@@ -597,7 +607,7 @@
                     <img src="aset-artikel/tirakatan.jpeg" alt="Pengukuhan Paskibraka Kota Pekalongan 2026" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Paskibraka Kota Pekalongan 2026 Dikukuhkan, Jelang Tugas Pengibaran Merah Putih</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Sabtu, 15 Agustus 2026</span>
@@ -610,7 +620,7 @@
                     <img src="aset-artikel/sertijab-lapas.jpeg" alt="Serah terima jabatan Kepala Lapas Kelas IIA Kota Pekalongan" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">Liputan Kegiatan</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">Kalapas Baru Resmi Bertugas, Pemkot Pekalongan Perkuat Komitmen Kolaborasi</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>Kamis, 27 Agustus 2026</span>
@@ -645,8 +655,7 @@
         }, 5000);
     }
 
-    // Render kartu dokumentasi harian dari kegiatan/data-kegiatan.json.
-    // Lebar tiap kartu mengikuti rasio asli fotonya (lihat adjustCardOrientation).
+    // Render kartu dokumentasi harian; lebar mengikuti rasio foto (lihat adjustCardOrientation).
     function renderKegiatan(data) {
         const track = document.getElementById('magang-track');
         if (!track) return;
@@ -654,13 +663,13 @@
         track.innerHTML = data.map(item => `
             <div class="snap-start kegiatan-card perspective-1000 group">
                 <div class="flip-inner w-full h-full relative preserve-3d cursor-pointer" onclick="flipCard(this)">
-                    <div class="absolute inset-0 backface-hidden card-neo p-2 bg-white flex flex-col">
-                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-slate-100">
+                    <div class="absolute inset-0 backface-hidden card-neo p-2 flex flex-col">
+                        <div class="w-full h-full rounded-lg overflow-hidden relative bg-brand-bg">
                             <span class="absolute top-3 left-3 bg-brand-accent text-white text-[10px] font-bold uppercase px-2 py-1 rounded shadow-sm z-10 pointer-events-none">Kegiatan Magang</span>
                             <img src="${item.foto}" alt="${item.alt}" class="w-full h-full object-cover" loading="lazy" onload="adjustCardOrientation(this)">
                         </div>
                     </div>
-                    <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo bg-white border-2 border-brand-header p-3 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center overflow-y-auto hide-scrollbar">
+                    <div class="absolute inset-0 backface-hidden rotate-y-180 card-neo border-2 border-brand-header p-3 sm:p-4 md:p-6 flex flex-col items-center justify-center text-center overflow-y-auto hide-scrollbar">
                         <div class="w-8 sm:w-10 md:w-12 h-1 sm:h-1.5 bg-brand-accent mb-2 sm:mb-3 md:mb-5 rounded-full shrink-0"></div>
                         <h4 class="font-bold text-brand-header text-xs sm:text-sm md:text-lg lg:text-xl mb-1.5 sm:mb-2 md:mb-3 leading-snug max-w-[92%] mx-auto">${item.judul}</h4>
                         <p class="text-[10px] sm:text-xs md:text-sm text-brand-text leading-relaxed max-w-[92%] mx-auto">${item.deskripsi}</p>
@@ -719,8 +728,7 @@
         });
     });
 
-    // Format tanggal ISO ("2026-08-21") menjadi format Indonesia baku,
-    // konsisten dengan halaman artikel: "Jumat, 21 Agustus 2026".
+    // Format tanggal ISO ke format Indonesia baku, mis. "Jumat, 21 Agustus 2026".
     const HARI_ID = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
     const BULAN_ID = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
 
@@ -744,7 +752,7 @@
                     <img src="${escapeHtml(item.foto)}" alt="${escapeHtml(item.judul)}" class="w-full h-full object-cover" loading="lazy">
                     <span class="absolute top-3 left-3 bg-kat-liputan text-white text-[10px] font-bold uppercase px-2 py-1 rounded">${escapeHtml(item.kategori || 'Liputan Kegiatan')}</span>
                 </div>
-                <div class="p-6 bg-white border-t-2 border-brand-header flex-grow flex flex-col">
+                <div class="p-6 bg-brand-surface border-t-2 border-brand-header flex-grow flex flex-col">
                     <h4 class="font-brand font-bold text-lg text-brand-header min-h-[84px]">${escapeHtml(item.judul)}</h4>
                     <div class="mt-auto pt-3 border-t border-brand-div/30 flex flex-col gap-1.5 text-xs text-brand-sub">
                         <span><i class="fa-solid fa-calendar-days mr-1.5 text-brand-accent"></i>${formatTanggalIndo(item.tanggal)}</span>
@@ -755,11 +763,7 @@
         `;
     }
 
-    // Liputan pilihan tim ditampilkan sesuai urutan tetap berikut. Bila salah
-    // satu berkas manifest tidak ditemukan (misal artikel dipindah/dihapus),
-    // slot tersebut otomatis diisi liputan terbaru lain sebagai gantinya.
-    // Bila manifest.json sendiri gagal dimuat, tiga kartu statis yang sudah
-    // tertulis di HTML tetap tampil sebagai fallback.
+    // Liputan pilihan tim; slot kosong diisi otomatis dari manifest, fallback ke HTML statis jika fetch gagal.
     (function () {
         const grid = document.getElementById('karya-grid');
         const PILIHAN = ['dolan-paud.html', 'tirakatan-pengukuhan.html', 'sertijab-lapas.html'];
@@ -796,7 +800,7 @@
         <span class="highlight-bg text-xl font-bold px-3 py-1 mb-4 inline-block">05</span>
         <h2 class="text-3xl lg:text-4xl font-bold text-brand-header mb-12">Tim PPL Prokompim</h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Ghazali.jpeg" alt="Foto Mazda Ghazali Hidayat" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -805,7 +809,7 @@
                     NIM: 30423003
                 </p>
             </div>
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Nabila.jpeg" alt="Foto Nabilla R. Citra Anggraeny" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -814,7 +818,7 @@
                     NIM: 30423011
                 </p>
             </div>
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Fara.jpeg" alt="Foto Fara Azahra" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -823,7 +827,7 @@
                     NIM: 30423081
                 </p>
             </div>
-            <div class="card-neo p-6 bg-white">
+            <div class="card-neo p-6">
                 <div class="w-20 h-20 mx-auto bg-brand-bg rounded-full border-2 border-brand-header mb-4 flex items-center justify-center overflow-hidden">
                     <img src="aset-profil/Intan.jpeg" alt="Foto Intan Fatmah Farkhati" class="w-full h-full object-cover" loading="lazy">
                 </div>
@@ -883,5 +887,6 @@
         });
     });
 </script>
+<script src="aset-profil/theme.js"></script>
 </body>
 </html>
