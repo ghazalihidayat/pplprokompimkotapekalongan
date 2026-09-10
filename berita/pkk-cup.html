@@ -27,8 +27,6 @@
 
     <!-- Konfigurasi warna, tipografi, dan gaya tambahan (berkas bersama) -->
     <script src="../aset-profil/tailwind-config.js"></script>
-    <!-- Terapkan tema sebelum render agar tidak flicker -->
-    <script>document.documentElement.classList.toggle('dark', localStorage.theme === 'dark' || (!('theme' in localStorage) && matchMedia('(prefers-color-scheme: dark)').matches));</script>
     <link rel="stylesheet" href="../aset-profil/berita.css">
 </head>
 <body class="bg-brand-bg text-brand-text antialiased">
@@ -45,9 +43,6 @@
                 <i class="fa-solid fa-arrow-left mr-1"></i>
                 Kembali
             </a>
-            <button type="button" data-theme-toggle aria-label="Ganti tema gelap/terang" class="icon-btn ml-3 flex-shrink-0">
-                <i class="fa-solid fa-moon text-sm"></i>
-            </button>
         </div>
     </nav>
 
@@ -140,7 +135,7 @@
 
             <!-- Tautan kembali ke halaman dokumentasi -->
             <div class="mt-10 border-t border-brand-div/30 pt-8">
-                <a href="../galeri.html" class="inline-flex items-center rounded-xl border-2 border-brand-header bg-brand-accent px-5 py-3 font-semibold text-white shadow-[3px_3px_0_rgb(var(--c-header))] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_rgb(var(--c-header))]">
+                <a href="../galeri.html" class="inline-flex items-center rounded-xl border-2 border-brand-header bg-brand-accent px-5 py-3 font-semibold text-white shadow-[3px_3px_0_#1E3A8A] transition hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0_#1E3A8A]">
                     <i class="fa-solid fa-arrow-left mr-2"></i>
                     Kembali ke Dokumentasi
                 </a>
@@ -185,6 +180,5 @@
             </p>
         </div>
     </footer>
-    <script src="../aset-profil/theme.js"></script>
 </body>
 </html>
