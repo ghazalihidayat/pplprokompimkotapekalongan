@@ -1,8 +1,7 @@
 // Konfigurasi warna dan tipografi Tailwind bersama untuk seluruh halaman situs.
-// Warna dipetakan ke CSS custom property (format channel RGB) agar tema gelap
-// otomatis mengikuti dan modifier opacity (mis. bg-brand-div/50) tetap berfungsi.
+// Warna dipetakan ke CSS custom property (format channel RGB) agar
+// modifier opacity (mis. bg-brand-div/50) tetap berfungsi.
 tailwind.config = {
-    darkMode: 'class',
     theme: {
         extend: {
             colors: {
