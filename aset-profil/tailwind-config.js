@@ -14,7 +14,6 @@ tailwind.config = {
                 'brand-dark': 'rgb(var(--c-dark) / <alpha-value>)',
                 'brand-accent': 'rgb(var(--c-accent) / <alpha-value>)',
                 'kat-liputan': 'rgb(var(--c-accent) / <alpha-value>)',
-                'kat-jurnal': '#0D9488',
             },
             fontFamily: {
                 'sans': ['Plus Jakarta Sans', 'sans-serif'],
