@@ -33,8 +33,8 @@
         }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #F0F4F8;
-            color: #1E293B;
+            background-color: rgb(var(--c-bg));
+            color: rgb(var(--c-text));
             font-variant-numeric: tabular-nums lining-nums;
         }
         h1,
@@ -49,36 +49,48 @@
             display: block;
         }
 
+        /* Token warna tema situs */
+        :root {
+            --c-bg: 240 244 248;
+            --c-surface: 255 255 255;
+            --c-dark: 30 58 138;
+            --c-header: 30 58 138;
+            --c-text: 30 41 59;
+            --c-sub: 71 85 105;
+            --c-div: 147 197 253;
+            --c-accent: 59 130 246;
+        }
+
         .card-neo {
-            background-color: white;
-            border: 2px solid #1E3A8A;
+            background-color: rgb(var(--c-surface));
+            border: 2px solid rgb(var(--c-header));
             border-radius: 1rem;
-            box-shadow: 4px 4px 0 #1E3A8A;
+            box-shadow: 4px 4px 0 rgb(var(--c-header));
         }
         .btn-neo {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0.75rem 1.5rem;
-            background-color: #3B82F6;
+            background-color: rgb(var(--c-accent));
             color: white;
             font-weight: 600;
-            border: 2px solid #1E3A8A;
+            border: 2px solid rgb(var(--c-header));
             border-radius: 0.75rem;
-            box-shadow: 3px 3px 0 #1E3A8A;
+            box-shadow: 3px 3px 0 rgb(var(--c-header));
             cursor: pointer;
             transition: all 0.2s;
         }
         .btn-neo:hover {
             transform: translate(2px, 2px);
-            box-shadow: 1px 1px 0 #1E3A8A;
+            box-shadow: 1px 1px 0 rgb(var(--c-header));
         }
         .btn-neo-dark {
-            background-color: #1E3A8A;
-            border-color: #1E3A8A;
+            background-color: rgb(var(--c-dark));
+            border-color: rgb(var(--c-header));
         }
         .highlight-bg {
-            background-color: #3B82F6;
+            background-color: rgb(var(--c-accent));
             padding: 0.25rem 0.75rem;
             border-radius: 0.5rem;
             color: white;
@@ -104,16 +116,17 @@
             .stat-card { min-height: 108px; }
         }
 
+
         /* Aksen tepi kiri/kanan untuk grup 1-2 kartu di layar besar, agar tidak kosong */
         .edge-accent {
-            background-image: radial-gradient(rgba(30, 58, 138, 0.35) 1.5px, transparent 1.5px);
+            background-image: radial-gradient(rgb(var(--c-header) / 0.35) 1.5px, transparent 1.5px);
             background-size: 14px 14px;
         }
 
         /* Focus state konsisten untuk navigasi keyboard */
         a:focus-visible,
         button:focus-visible {
-            outline: 2px solid #1E3A8A;
+            outline: 2px solid rgb(var(--c-header));
             outline-offset: 2px;
             border-radius: 0.25rem;
         }
@@ -192,7 +205,7 @@
     <header class="border-b-2 border-brand-header/10 bg-brand-surface px-6 py-14 lg:py-20">
         <div class="mx-auto flex max-w-7xl flex-col gap-10">
             <div class="max-w-2xl">
-                <span class="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-brand-header bg-brand-surface px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-brand-header shadow-[3px_3px_0_#1E3A8A]">
+                <span class="mb-4 inline-flex items-center gap-2 rounded-full border-2 border-brand-header bg-brand-surface px-4 py-1.5 text-xs font-bold uppercase tracking-wide text-brand-header shadow-[3px_3px_0_rgb(var(--c-header))]">
                     <i class="fa-solid fa-images text-brand-accent"></i>
                     Galeri Publikasi
                 </span>
@@ -566,5 +579,5 @@
             });
         });
     </script>
-    </body>
+</body>
 </html>
